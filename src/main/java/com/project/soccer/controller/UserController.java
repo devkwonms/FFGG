@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 @Slf4j
 @Controller
@@ -28,7 +29,7 @@ public class UserController {
         System.setProperty("https.protocols", "TLSv1.2");
 
         try {
-            String apiUrl = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname="+ userName;
+            String apiUrl = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname="+ URLEncoder.encode(userName,"UTF-8");
 
             log.info("userName = {}", userName);
             log.info("apiUrl = {}", apiUrl);
