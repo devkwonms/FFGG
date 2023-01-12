@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ApiController {
 
-    @GetMapping("/user")
-    public String userSelect(){
-
-        StringBuffer result = new StringBuffer();
-        String JsonPrintString = null;
-
-        String apiUrl = "";
-
-        return "ok";
-
-    }
+//    @GetMapping("/user")
+//    public String userSelect(){
+//
+//        StringBuffer result = new StringBuffer();
+//        String JsonPrintString = null;
+//
+//        String apiUrl = "";
+//
+//        return "ok";
+//
+//    }
 }
