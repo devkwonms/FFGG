@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
 @Slf4j
 @Controller
-@RequestMapping("/user/userSearch")
+@RequestMapping("/user")
 public class UserController {
 
     @GetMapping
@@ -23,15 +24,23 @@ public class UserController {
         return "user/userSearch";
     }
     @ResponseBody
-    @PostMapping
-    public String userSearch(@RequestBody String userName) throws JSONException {
+    @GetMapping("/userSearch/{userName}")
+    public String userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException {
+
+        String userSearchApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=" + URLEncoder.encode(userName,"UTF-8");
+
+        return urlConn(userSearchApi);
+    }
+
+
+
+    private String urlConn(String api) {
         StringBuffer result = new StringBuffer();
         System.setProperty("https.protocols", "TLSv1.2");
 
         try {
-            String apiUrl = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname="+ URLEncoder.encode(userName,"UTF-8");
+            String apiUrl = api ;
 
-            log.info("userName = {}", userName);
             log.info("apiUrl = {}", apiUrl);
             URL url = new URL(apiUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
