@@ -2,6 +2,7 @@ package com.project.soccer.controller;
 
 import com.project.soccer.dto.UserSearchDto;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,38 +35,44 @@ public class UserController {
     @ResponseBody
     @GetMapping("/userSearch/{userName}")
     public UserSearchDto userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException {
+        // 유저 조회Dto
         UserSearchDto userSearchDto = new UserSearchDto();
 
         // Dto에 userName 넣어주기
         userSearchDto.setNickName(userName);
+
 //        log.info("userDto.getAchievementDate() = {}", userSearchDto.getAchievementDate() );
 
         // 유저 닉네임으로 유저 정보 조회 API
         String userSearchApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=" + URLEncoder.encode(userSearchDto.getNickName(),"UTF-8");
-        log.info("userSearchApi = {}", userSearchApi );
 
         String userSearchResult = urlConn(userSearchApi);
 
         JSONObject userSearchJson = new JSONObject(userSearchResult);
 
-        String accessId = (String)userSearchJson.get("accessId");
+        String accessId = userSearchJson.getString("accessId");
         Integer level = userSearchJson.getInt("level");
-//        String matchType = (String)userSearchJson.get("matchType");
-//        String division = (String)userSearchJson.get("division");
-//        String achievementDate = (String)userSearchJson.get("achievementDate");
 
         userSearchDto.setAccessId(accessId);
         userSearchDto.setLevel(level);
 
-        log.info("userSearchJson = {}", userSearchJson);
-        String userTopTierApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/maxdivision";
-        log.info("userTopTierApi = {}", userTopTierApi );
-
-        String userTopTierResult = urlConn(userTopTierApi);
-
         log.info("userDto.getNickName() = {}", userSearchDto.getNickName() );
         log.info("userDto.getAccessId() = {}", userSearchDto.getAccessId() );
         log.info("userDto.getLevel() = {}", userSearchDto.getLevel() );
+
+        String userTopTierApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/maxdivision";
+
+        String userTopTierResult = urlConn(userTopTierApi);
+
+        JSONArray matchSearchJson = new JSONArray(userTopTierResult);
+
+        // matchType 값 JsonArray를 통해 추출하기
+        for( int i=0; i< matchSearchJson.length(); i++){
+            JSONObject jsonObject = matchSearchJson.getJSONObject(i);
+            int matchType = jsonObject.getInt("matchType");
+            log.info("matchType = {}", matchType);
+        }
+
         log.info("userDto.getDivision() = {}", userSearchDto.getDivision() );
         log.info("userDto.getMatchType() = {}", userSearchDto.getMatchType() );
 //        resultMap.put("userSearchResult",userSearchResult);
