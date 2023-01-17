@@ -1,6 +1,6 @@
 package com.project.soccer.dto;
 
-public enum MatchType {
+public enum Division {
     T800("슈퍼챔피언스"),
     T900("챔피언스"),
     T1000("슈퍼챌린지"),
@@ -23,7 +23,7 @@ public enum MatchType {
 
     private final String label;
 
-    MatchType(String label) {
+    Division(String label) {
         this.label = label;
     }
 
