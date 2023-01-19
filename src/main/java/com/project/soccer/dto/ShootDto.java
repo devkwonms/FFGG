@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class shootDto {
+public class ShootDto {
 
     private Integer shootTotal;             // 총 슛 수
     private Integer effectiveShootTotal;    // 총 유효슛 수
