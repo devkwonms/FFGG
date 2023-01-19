@@ -44,7 +44,8 @@ public class matchController {
 
         resultList.add(userSearchDto);
         resultList.add(topTierList);
-//        log.info("resultList = {}",resultList);
+        log.info("resultList = {}",resultList);
+
         return resultList;
     }
 
