@@ -21,7 +21,7 @@ public class MatchDetailDto {
     private Integer dribble;        // 드리블 거리(야드)
     private Integer cornerKick;     // 코너킥 수
     private Integer possession;     // 점유율
-    private Integer OffsideCount;   // 오프사이드 수
+    private Integer offsideCount;   // 오프사이드 수
     private Double averageRating;  // 경기 평점
     private String controller;     // 사용한 컨트롤러 타입 (keyboard / pad / etc 중 1)
 
