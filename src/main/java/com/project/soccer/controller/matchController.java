@@ -1,12 +1,13 @@
 package com.project.soccer.controller;
 
-import com.project.soccer.dto.TopTierDto;
+import com.project.soccer.dto.MatchDto;
+import com.project.soccer.dto.MatchThumbnailDto;
 import com.project.soccer.dto.UserSearchDto;
+import com.project.soccer.service.MatchService;
 import com.project.soccer.service.UserSearchService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +19,12 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class matchController {
 
-    @Autowired
-    private UserSearchService userSearchService;
+    private final UserSearchService userSearchService;
+
+    private final MatchService matchService;
 
     @GetMapping
     public String user(){
@@ -34,19 +37,32 @@ public class matchController {
     public List<Object> userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException {
 
         List<Object> resultList = new ArrayList<>();
-
         UserSearchDto userSearchDto = new UserSearchDto();
         userSearchDto = userSearchService.userSearchApi(userSearchDto, userName);
 
         List<Map<String,Object>> topTierList = userSearchService.topTierApi(userSearchDto.getAccessId());
 
-//        log.info("userSearchDto= {}", userSearchDto);
-
         resultList.add(userSearchDto);
         resultList.add(topTierList);
-        log.info("resultList = {}",resultList);
 
         return resultList;
     }
+    @ResponseBody
+    @GetMapping("/matchRecord/{accessId}")
+    public List<MatchThumbnailDto> matchRecord(@PathVariable String accessId) throws JSONException{
 
+        List<MatchThumbnailDto> matchThumbnailList = matchService.matchRecordApi(accessId);
+
+        return matchThumbnailList;
+    }
+
+    @ResponseBody
+    @GetMapping("/matchDetailRecord/{matchId}")
+    public MatchDto matchDetailRecord(@PathVariable String matchId){
+//        MatchDto matchDto = new MatchDto();
+
+        MatchDto matchDetailRecordResult = matchService.matchDetailRecordApi(matchId);
+
+        return matchDetailRecordResult;
+    }
 }
