@@ -27,31 +27,45 @@
 
         <hr class="my-4">
         <div class="row">
-            <div class="col"> <button class="w-100 btn btn-primary btn-lg" type="button" onclick="to_ajax()">
+            <div class="col"> <button class="w-100 btn btn-primary btn-lg" type="button" onclick="userInfo()">
                 조회</button>
             </div>
         </div>
     </form>
 </div>
 <script>
-function to_ajax(){
+    // $(document).ready(function() {
+    //     // 검색결과 값 가져오기.
+    //     let data_result = search_data();
+    // })
+function userInfo(){
 
     var userName = $('#userName').val();
-    console.log("data = " + userName);
+    console.log("userName = " + userName);
+
     $.ajax(
         {
             type : 'GET',
             url : "/user/userSearch/"+userName,
+            async:false,
             // data: data.userName,
             contentType: 'application/json; charset=utf-8',   //    application/x-www-form-urlencoded
-            success : function(){
-                // alert("성공!")
+            success : function(data){
+                result = data;
+                console.log(result);
+                console.log("===========");
+                // debugger;
+                accessId = result[0].accessId;
+                alert(accessId);
             },
             error: function(xhr, status, error){
                 alert(error);
             },
         }
+
     );
+    console.log(result);
+    return result;
 }
 </script>
 <!-- /container -->
