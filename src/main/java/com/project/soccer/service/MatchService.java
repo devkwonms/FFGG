@@ -3,6 +3,7 @@ package com.project.soccer.service;
 import com.google.gson.Gson;
 import com.project.soccer.dto.MatchDto;
 import com.project.soccer.dto.MatchThumbnailDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,9 +15,10 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MatchService {
-    @Autowired
-    private UrlConnService urlConnService;
+
+    private final UrlConnService urlConnService;
 
     // 유저 고유 식별자로 유저의 매치 기록 썸네일 조회(10개)
     public List<MatchThumbnailDto> matchRecordApi(String accessId){
@@ -42,25 +44,18 @@ public class MatchService {
             matchThumbnailDto.setMatchDate(matchDto.getMatchDate());
             matchThumbnailDto.setAccessId(accessId);
 
-            boolean yn = matchDto.getMatchInfo().get(0).getAccessId().equals(accessId);
-
             int j = 0;
             int k = 1;
-
-            if (!yn){
-                j = 1;
-                k = 0;
+            if (!matchDto.getMatchInfo().get(0).getAccessId().equals(accessId)) {
+                j = 1; k = 0;
             }
-            log.info("나임");
 
             matchThumbnailDto.setMyNickName(matchDto.getMatchInfo().get(j).getNickname());
             matchThumbnailDto.setMyGoal(matchDto.getMatchInfo().get(j).getShoot().getGoalTotal());
             matchThumbnailDto.setMyResult(matchDto.getMatchInfo().get(j).getMatchDetail().getMatchResult());
 
-            log.info("상대임");
             matchThumbnailDto.setAnotherNickname(matchDto.getMatchInfo().get(k).getNickname());
             matchThumbnailDto.setAnotherGoal(matchDto.getMatchInfo().get(k).getShoot().getGoalTotal());
-            log.info("another matchThumbnailDto = {}",matchThumbnailDto);
 
             matchThumbnailList.add(matchThumbnailDto);
         }
@@ -76,7 +71,6 @@ public class MatchService {
         String matchDetailRecordResult = urlConnService.urlConn(matchDetailRecordApi);
 
         JSONObject matchDetailRecordJson = new JSONObject(matchDetailRecordResult);
-        log.info("matchDetailRecordJson = {}", matchDetailRecordJson);
 
         Gson gson = new Gson();
 
@@ -85,5 +79,22 @@ public class MatchService {
 
         return matchDto;
     }
+
+    public MatchDto matchDetail(String matchId) {
+
+        MatchDto matchDto = new MatchDto();
+        matchDto = matchDetailRecordApi(matchId);
+
+        // 선수 식별자를 통한 선수 이름 추출
+        String spNameApi = "https://static.api.nexon.co.kr/fifaonline4/latest/spid.json";
+        String spNameResult = urlConnService.urlConn(spNameApi);
+
+        JSONArray spNameJson = new JSONArray(spNameResult);
+
+        log.info("spNameJson = {}", spNameJson);
+
+        return matchDto;
+    }
+
 
 }
