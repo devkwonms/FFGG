@@ -57,12 +57,14 @@ public class matchController {
     }
 
     @ResponseBody
-    @GetMapping("/matchDetailRecord/{matchId}")
-    public MatchDto matchDetailRecord(@PathVariable String matchId){
-//        MatchDto matchDto = new MatchDto();
+    @GetMapping("/matchRecordDetail/{matchId}")
+    public MatchDto matchRecordDetail(@PathVariable String matchId){
 
-        MatchDto matchDetailRecordResult = matchService.matchDetailRecordApi(matchId);
+        MatchDto matchRecordDetailResult = matchService.matchDetailRecordApi(matchId);
 
-        return matchDetailRecordResult;
+        MatchDto matchDetailResult = matchService.matchDetail(matchId);
+
+        return matchRecordDetailResult;
     }
+
 }
