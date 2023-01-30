@@ -62,9 +62,6 @@ public class matchController {
 
         MatchDto matchRecordDetailResult = matchService.matchDetailRecordApi(matchId);
 
-        MatchDto matchDetailResult = matchService.matchDetail(matchId);
-
         return matchRecordDetailResult;
     }
-
 }
