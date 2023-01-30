@@ -32,4 +32,5 @@ public class StatusDto {
     private Integer yellowCards;           // 옐로카드 수
     private Integer redCards;              // 레드카드 수
     private Float spRating;                // 선수 평점
+
 }
