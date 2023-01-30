@@ -43,6 +43,19 @@ function userInfo(){
     var userName = $('#userName').val();
     console.log("userName = " + userName);
 
+    var something = {
+        name: 'Outsider',
+        blog: 'ss'
+    }
+    console.log(something);
+
+    var keyname = 'spName';
+
+    var something = { };
+    something[keyname + 'postfix'] = 'value';
+
+    console.log(something);
+
     $.ajax(
         {
             type : 'GET',
@@ -67,6 +80,7 @@ function userInfo(){
     console.log(result);
     return result;
 }
+
 </script>
 <!-- /container -->
 </body>
