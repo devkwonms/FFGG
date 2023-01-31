@@ -20,6 +20,14 @@ public class MatchInfoDto {
     private DefenceDto defence;                 // 수비 정보
     private List<PlayerDto> player;             // 경기 사용 선수 정보
 
-
-
+//    public List<PlayerDto> getPlayer(){
+//
+//        for(int i =0; i < player.size(); i++){
+//
+//            if(player.get(i).getSpPosition() == 28){
+//                player.remove(i);
+//           }
+//        }
+//        return player;
+//    }
 }
