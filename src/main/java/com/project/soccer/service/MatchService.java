@@ -3,7 +3,6 @@ package com.project.soccer.service;
 import com.google.gson.Gson;
 import com.project.soccer.dto.MatchDto;
 import com.project.soccer.dto.MatchThumbnailDto;
-import com.project.soccer.dto.PlayerDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -11,7 +10,6 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -76,45 +74,29 @@ public class MatchService {
         Gson gson = new Gson();
 
         MatchDto matchDto = gson.fromJson(matchDetailRecordJson.toString(), MatchDto.class);
-//        log.info("matchDto = {}", matchDto);
 
-        List<Integer> spNameList0 = new ArrayList<>();
-        List<Integer> spNameList1 = new ArrayList<>();
-
-        // 나와 상대선수 각각 11명(총22명) 의 주전선수 고유 id 추출하기
+        // 나와 상대선수 각각 18명(총36명) 의 주전선수 고유 id 추출하기
         for(int i =0 ; i < 2; i++) {
             for (int j = 0; j < 18; j++) {
 
                 // spPosition = 28 (교체)인 선수 거르기
                 if(matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpPosition() != 28){
-                    Integer spId = matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpId();
 
-                    if(i == 0){
-                        spNameList0.add(spId);
-                    }else{
-                        spNameList1.add(spId);
-                    }
+                    int spId = matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpId();
+
+                    // i번째 주전선수의 spId에 맞는 spName set
+                    matchDto.getMatchInfo().get(i).getPlayer().get(j).setSpName(matchPlayerNameApi(spId));
+
+                    log.info("matchDto = {}", matchDto);
                 }
             }
-
         }
-        Collections.sort(spNameList0);
-        Collections.sort(spNameList1);
-
-        log.info("spNameList0= {}", spNameList0);
-        log.info("spNameList1= {}", spNameList1);
-
-        int index = Collections.binarySearch(spNameList0, 260231838);
-
-        log.info("index= {}", index);
 
         return matchDto;
     }
 
     // 선수 고유 id로 선수 이름 추출 api
-    public List<PlayerDto> matchPlayerNameApi(int spId) {
-
-        List<PlayerDto> playerNameList = new ArrayList<>();
+    public String matchPlayerNameApi(int spId) {
 
         // 선수 식별자를 통한 선수 이름 추출
         String spNameApi = "https://static.api.nexon.co.kr/fifaonline4/latest/spid.json";
@@ -122,9 +104,8 @@ public class MatchService {
 
         JSONArray spNameJson = new JSONArray(spNameResult);
 
-        spNameSearch(spNameJson,spId);
+        return spNameSearch(spNameJson,spId);
 
-        return playerNameList;
     }
 
     // 이분탐색을 통한 선수 id => 선수 id 매칭 => 선수 이름 추출 method
@@ -132,7 +113,6 @@ public class MatchService {
 
         int min = 0;
         int max = spNameJson.length()-1;
-//        int max = 3;
 
         while (min <= max) {
 
@@ -141,21 +121,14 @@ public class MatchService {
             if (Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()) < spId) { // 1. 찾는값이 더 큰 경우 우측에서 찾는다.
 
                 min = mid + 1;
-//                log.info("if = {}");
 
             } else if (Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()) > spId) { // 2. 찾는값이 더 작은 경우 좌측에서 찾는다.
 
                 max = mid - 1;
-//                log.info("else if = {}");
 
             } else { // 3. 찾는값을 발견한 경우
 
-                spNameJson.getJSONObject(mid).get("name");
-//                log.info("@= {}",spNameJson.getJSONObject(mid).get("name"));
-//                log.info("@@ = {}",Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()));
-//                log.info("@@# = {}",spId);
-
-                return (String) spNameJson.getJSONObject(mid).get("name");
+                return spNameJson.getJSONObject(mid).get("name").toString();
 
             }
         }
