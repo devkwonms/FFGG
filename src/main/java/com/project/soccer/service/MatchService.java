@@ -89,7 +89,6 @@ public class MatchService {
                     // i번째 주전선수의 spId에 맞는 spName set
                     matchDto.getMatchInfo().get(i).getPlayer().get(j).setSpName(spNameSearch(spNameJson,spId));
 
-                    log.info("matchDto = {}", matchDto);
                 }
             }
         }
