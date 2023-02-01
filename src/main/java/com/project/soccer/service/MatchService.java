@@ -82,17 +82,17 @@ public class MatchService {
 
                 // spPosition = 28 (교체)인 선수 거르기
 //                int player = matchDto.getMatchInfo().get(i).getPlayer().get(j);
-                if(matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpPosition() != 28){
+//                if(matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpPosition() != 28){
 
                     int spId = matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpId();
 
                     // i번째 주전선수의 spId에 맞는 spName set
                     matchDto.getMatchInfo().get(i).getPlayer().get(j).setSpName(spNameSearch(spNameJson,spId));
 
-                }
+//                }
             }
         }
-
+        log.info("matchDto = {}", matchDto);
         return matchDto;
     }
 
