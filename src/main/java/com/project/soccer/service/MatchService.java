@@ -82,14 +82,14 @@ public class MatchService {
 
                 // spPosition = 28 (교체)인 선수 거르기
 //                int player = matchDto.getMatchInfo().get(i).getPlayer().get(j);
-//                if(matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpPosition() != 28){
+                if(matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpPosition() != 28){
 
                     int spId = matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpId();
 
                     // i번째 주전선수의 spId에 맞는 spName set
                     matchDto.getMatchInfo().get(i).getPlayer().get(j).setSpName(spNameSearch(spNameJson,spId));
 
-//                }
+                }
             }
         }
         log.info("matchDto = {}", matchDto);
@@ -117,17 +117,14 @@ public class MatchService {
             int mid = (min + max) / 2; // 중간 Index를 구하여 검색한다.
 
             if (Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()) < spId) { // 1. 찾는값이 더 큰 경우 우측에서 찾는다.
-
                 min = mid + 1;
 
             } else if (Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()) > spId) { // 2. 찾는값이 더 작은 경우 좌측에서 찾는다.
-
                 max = mid - 1;
 
             } else { // 3. 찾는값을 발견한 경우
 
                 return spNameJson.getJSONObject(mid).get("name").toString();
-
             }
         }
 
