@@ -75,36 +75,34 @@ public class MatchService {
 
         MatchDto matchDto = gson.fromJson(matchDetailRecordJson.toString(), MatchDto.class);
 
+        JSONArray spNameJson = matchPlayerNameApi();
         // 나와 상대선수 각각 18명(총36명) 의 주전선수 고유 id 추출하기
         for(int i =0 ; i < 2; i++) {
             for (int j = 0; j < 18; j++) {
 
                 // spPosition = 28 (교체)인 선수 거르기
+//                int player = matchDto.getMatchInfo().get(i).getPlayer().get(j);
                 if(matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpPosition() != 28){
 
                     int spId = matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpId();
 
                     // i번째 주전선수의 spId에 맞는 spName set
-                    matchDto.getMatchInfo().get(i).getPlayer().get(j).setSpName(matchPlayerNameApi(spId));
+                    matchDto.getMatchInfo().get(i).getPlayer().get(j).setSpName(spNameSearch(spNameJson,spId));
 
-                    log.info("matchDto = {}", matchDto);
                 }
             }
         }
-
+        log.info("matchDto = {}", matchDto);
         return matchDto;
     }
 
     // 선수 고유 id로 선수 이름 추출 api
-    public String matchPlayerNameApi(int spId) {
-
-        // 선수 식별자를 통한 선수 이름 추출
+    public JSONArray matchPlayerNameApi() {
         String spNameApi = "https://static.api.nexon.co.kr/fifaonline4/latest/spid.json";
         String spNameResult = urlConnService.urlConn(spNameApi);
 
         JSONArray spNameJson = new JSONArray(spNameResult);
-
-        return spNameSearch(spNameJson,spId);
+        return spNameJson;
 
     }
 
@@ -119,17 +117,14 @@ public class MatchService {
             int mid = (min + max) / 2; // 중간 Index를 구하여 검색한다.
 
             if (Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()) < spId) { // 1. 찾는값이 더 큰 경우 우측에서 찾는다.
-
                 min = mid + 1;
 
             } else if (Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()) > spId) { // 2. 찾는값이 더 작은 경우 좌측에서 찾는다.
-
                 max = mid - 1;
 
             } else { // 3. 찾는값을 발견한 경우
 
                 return spNameJson.getJSONObject(mid).get("name").toString();
-
             }
         }
 
