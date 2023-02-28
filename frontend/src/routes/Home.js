@@ -7,14 +7,11 @@ function Home(){
     
     const getUser = async(nickname) =>{
         const requestOptions ={
-            method:'GET',
-            headers : {
-            "Authorization" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJYLUFwcC1SYXRlLUxpbWl0IjoiNTAwOjEwIiwiYWNjb3VudF9pZCI6IjE1MjY5MjMzNzAiLCJhdXRoX2lkIjoiMiIsImV4cCI6MTY4ODg4ODQyMSwiaWF0IjoxNjczMzM2NDIxLCJuYmYiOjE2NzMzMzY0MjEsInNlcnZpY2VfaWQiOiI0MzAwMTE0ODEiLCJ0b2tlbl90eXBlIjoiQWNjZXNzVG9rZW4ifQ.SqVNR_woA6kakkt-DtclOu0DP5tJNwgd5q1DDqTde_Q"
-            }
+            method:'GET'
         }
         const json = await (
             await fetch(
-            `https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=${nickname}`,requestOptions
+            `http://localhost:8080/api/usersearch/${nickname}`,requestOptions
         )
         ).json();
         setUser(json);
