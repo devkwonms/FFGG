@@ -18,7 +18,8 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/api")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class matchController {
 
