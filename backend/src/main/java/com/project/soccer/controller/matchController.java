@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class matchController {
 
