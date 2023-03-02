@@ -30,7 +30,7 @@ public class matchController {
     @GetMapping
     public String user(){
 
-        return "user/userSearch";
+        return "api/userSearch";
     }
 
     @ResponseBody
@@ -42,19 +42,13 @@ public class matchController {
         userSearchDto = userSearchService.userSearchApi(userSearchDto, userName);
 
         List<Map<String,Object>> topTierList = userSearchService.topTierApi(userSearchDto.getAccessId());
+        List<MatchThumbnailDto> matchThumbnailList = matchService.matchRecordApi(userSearchDto.getAccessId());
 
         resultList.add(userSearchDto);
         resultList.add(topTierList);
+        resultList.add(matchThumbnailList);
 
         return resultList;
-    }
-    @ResponseBody
-    @GetMapping("/matchRecord/{accessId}")
-    public List<MatchThumbnailDto> matchRecord(@PathVariable String accessId) throws JSONException{
-
-        List<MatchThumbnailDto> matchThumbnailList = matchService.matchRecordApi(accessId);
-
-        return matchThumbnailList;
     }
 
     @ResponseBody
