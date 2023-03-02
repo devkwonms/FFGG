@@ -43,7 +43,7 @@ public class UserSearchService {
         userSearchDto.setAccessId(accessId);
         userSearchDto.setLevel(level);
 
-        log.info("userSearchDto = {}", userSearchDto);
+//        log.info("userSearchDto = {}", userSearchDto);
         return userSearchDto;
     }
 
@@ -55,7 +55,7 @@ public class UserSearchService {
         String topTierResult = urlConnService.urlConn(topTierApi);
 
         JSONArray topTierJson = new JSONArray(topTierResult);
-        log.info("topTierJson  = {}", topTierJson);
+//        log.info("topTierJson  = {}", topTierJson);
 
         // matchType 값 JsonArray를 통해 추출하기
         for( int i=0; i< topTierJson.length(); i++){
@@ -72,7 +72,7 @@ public class UserSearchService {
 
             topTierList.add(topTierMap);
         }
-        log.info("topTierList = {}", topTierList);
+//        log.info("topTierList = {}", topTierList);
 
         return topTierList;
     }
