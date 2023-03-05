@@ -33,8 +33,13 @@ public class UserSearchService {
 
         // 유저 닉네임으로 유저 정보 조회 API
         String userSearchApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=" + URLEncoder.encode(userName,"UTF-8");
-        String userSearchResult = urlConnService.urlConn(userSearchApi);
 
+        // 존재하지 않는 닉네임 조회 시의 예외처리
+        String userSearchResult = urlConnService.urlConn(userSearchApi);
+        if(userSearchResult.isEmpty()) {
+            log.info("해당 구단주는 존재하지않습니다!");
+            return userSearchDto;
+        }
         JSONObject userSearchJson = new JSONObject(userSearchResult);
 
         String accessId = userSearchJson.getString("accessId");
