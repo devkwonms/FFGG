@@ -1,5 +1,9 @@
 package com.project.soccer.dto;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public enum Division {
     T800("슈퍼챔피언스"),
     T900("챔피언스"),
@@ -31,4 +35,11 @@ public enum Division {
         return label;
     }
 
+    // 캐싱해서 순회를 피해 label 값 추출
+    private static final Map<String, Division> BY_LABEL =
+            Stream.of(values()).collect(Collectors.toMap(Division::label, e -> e));
+
+    public static Division valueOfLabel(String label) {
+        return BY_LABEL.get(label);
+    }
 }
