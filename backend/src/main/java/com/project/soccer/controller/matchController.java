@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,20 +35,21 @@ public class matchController {
 
     @ResponseBody
     @GetMapping("/userSearch/{userName}")
-    public List<Object> userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException {
+    public Map<String,Object> userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException {
 
-        List<Object> resultList = new ArrayList<>();
+        Map<String,Object> resultMap = new HashMap<>();
+
         UserSearchDto userSearchDto = new UserSearchDto();
         userSearchDto = userSearchService.userSearchApi(userSearchDto, userName);
 
         List<Map<String,Object>> topTierList = userSearchService.topTierApi(userSearchDto.getAccessId());
         List<MatchThumbnailDto> matchThumbnailList = matchService.matchRecordApi(userSearchDto.getAccessId());
 
-        resultList.add(userSearchDto);
-        resultList.add(topTierList);
-        resultList.add(matchThumbnailList);
+        resultMap.put("userSearchDto", userSearchDto);
+        resultMap.put("topTierList", topTierList);
+        resultMap.put("matchThumbnailList", matchThumbnailList);
 
-        return resultList;
+        return resultMap;
     }
 
     @ResponseBody
