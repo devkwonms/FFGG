@@ -42,19 +42,29 @@ public class MatchService {
             matchThumbnailDto.setMatchDate(matchDto.getMatchDate());
             matchThumbnailDto.setAccessId(accessId);
 
-            int j = 0;
-            int k = 1;
+            // l= 나 , r = 상대로 설정하기위한 조건문
+            int l = 0;
+            int r = 1;
 
             if (!matchDto.getMatchInfo().get(0).getAccessId().equals(accessId)) {
-                j = 1; k = 0;
+                l = 1; r = 0;
             }
 
-            matchThumbnailDto.setMyNickName(matchDto.getMatchInfo().get(j).getNickname());
-            matchThumbnailDto.setMyGoal(matchDto.getMatchInfo().get(j).getShoot().getGoalTotal());
-            matchThumbnailDto.setMyResult(matchDto.getMatchInfo().get(j).getMatchDetail().getMatchResult());
+            if(matchDto.getMatchInfo().get(l).getMatchDetail().getMatchResult().equals("오류")
+                    ||matchDto.getMatchInfo().get(r).getMatchDetail().getMatchResult().equals("오류")){
+                matchThumbnailDto.setMyNickName(matchDto.getMatchInfo().get(l).getNickname());
+                matchThumbnailDto.setAnotherNickname(matchDto.getMatchInfo().get(r).getNickname());
+                matchThumbnailDto.setMyResult(matchDto.getResult(matchDto,l));
+                matchThumbnailList.add(matchThumbnailDto);
+                continue;
+            }
 
-            matchThumbnailDto.setAnotherNickname(matchDto.getMatchInfo().get(k).getNickname());
-            matchThumbnailDto.setAnotherGoal(matchDto.getMatchInfo().get(k).getShoot().getGoalTotal());
+            matchThumbnailDto.setMyNickName(matchDto.getMatchInfo().get(l).getNickname());
+            matchThumbnailDto.setMyGoal(matchDto.getMatchInfo().get(l).getShoot().getGoalTotal());
+            matchThumbnailDto.setMyResult(matchDto.getMatchInfo().get(l).getMatchDetail().getMatchResult());
+
+            matchThumbnailDto.setAnotherNickname(matchDto.getMatchInfo().get(r).getNickname());
+            matchThumbnailDto.setAnotherGoal(matchDto.getMatchInfo().get(r).getShoot().getGoalTotal());
 
             matchThumbnailList.add(matchThumbnailDto);
         }
@@ -74,8 +84,12 @@ public class MatchService {
         Gson gson = new Gson();
 
         MatchDto matchDto = gson.fromJson(matchDetailRecordJson.toString(), MatchDto.class);
-
+        if(matchDto.getMatchInfo().get(0).getPlayer().isEmpty() ||
+                matchDto.getMatchInfo().get(1).getPlayer().isEmpty()){
+            return matchDto;
+        }
         JSONArray spNameJson = matchPlayerNameApi();
+
         // 나와 상대선수 각각 18명(총36명) 의 주전선수 고유 id 추출하기
         for(int i =0 ; i < 2; i++) {
             for (int j = 0; j < 18; j++) {
