@@ -19,7 +19,17 @@ public class MatchDto {
     private List<MatchInfoDto> matchInfo;   // 매치 참여 플레이어별 매치 내용 상세 리스트
 
     public String getResult(MatchDto matchDto, int index) {
-        String matchResult = matchDto.getMatchInfo().get(index).getMatchDetail().getMatchResult();
-        return matchResult;
+        String myResult = matchDto.getMatchInfo().get(index).getMatchDetail().getMatchResult();
+        String anotherResult = matchDto.getMatchInfo().get(index == 0? 1:0).getMatchDetail().getMatchResult();
+
+        int myMatchEndType = matchDto.getMatchInfo().get(index).getMatchDetail().getMatchEndType();
+        int anotherMatchEndType = matchDto.getMatchInfo().get(index == 0? 1:0).getMatchDetail().getMatchEndType();
+
+        if(myResult.equals("오류")|| (myMatchEndType != 0 && myMatchEndType != 1)){
+            myResult = "몰수패";
+        }else if(anotherResult.equals("오류") || (anotherMatchEndType != 0 && anotherMatchEndType != 1)){
+            myResult = "몰수승";
+        }
+        return myResult;
     }
 }
