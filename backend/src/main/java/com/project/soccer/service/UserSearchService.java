@@ -1,5 +1,7 @@
 package com.project.soccer.service;
 
+import com.project.soccer.dto.Division;
+import com.project.soccer.dto.MatchType;
 import com.project.soccer.dto.TopTierDto;
 import com.project.soccer.dto.UserSearchDto;
 import lombok.extern.slf4j.Slf4j;
@@ -66,13 +68,20 @@ public class UserSearchService {
         for( int i=0; i< topTierJson.length(); i++){
 
             JSONObject jsonObject = topTierJson.getJSONObject(i);
+
             int matchType = jsonObject.getInt("matchType");
+            // matchType => enum의 label으로 값 추출
+            String matchTypeEnum = MatchType.valueOf("M"+matchType).label();
+
             int division = jsonObject.getInt("division");
-            String achievementDate = jsonObject.getString("achievementDate");
+            // matchType => enum의 label으로 값 추출
+            String divisionEnum = Division.valueOf("T"+division).label();
+
+            String achievementDate = jsonObject.getString("achievementDate").substring(0,10);   // YYYY-MM-DD 까지만 추출
 
             Map<String,Object> topTierMap = new HashMap<>();
-            topTierMap.put("matchType",matchType);
-            topTierMap.put("division",division);
+            topTierMap.put("matchType",matchTypeEnum);
+            topTierMap.put("division",divisionEnum);
             topTierMap.put("achievementDate",achievementDate);
 
             topTierList.add(topTierMap);
