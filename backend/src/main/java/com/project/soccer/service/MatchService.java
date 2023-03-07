@@ -88,7 +88,17 @@ public class MatchService {
                 matchDto.getMatchInfo().get(1).getPlayer().isEmpty()){
             return matchDto;
         }
-        JSONArray spNameJson = matchPlayerNameApi();
+
+        log.info("matchDto = {}", matchDto);
+        return matchDto;
+    }
+
+    // 선수 고유 id로 선수 이름 추출 api
+    public JSONArray setMatchPlayerNameApi(MatchDto matchDto) {
+        String spNameApi = "https://static.api.nexon.co.kr/fifaonline4/latest/spid.json";
+        String spNameResult = urlConnService.urlConn(spNameApi);
+
+        JSONArray spNameJson = new JSONArray(spNameResult);
 
         // 나와 상대선수 각각 18명(총36명) 의 주전선수 고유 id 추출하기
         for(int i =0 ; i < 2; i++) {
@@ -102,20 +112,9 @@ public class MatchService {
 
                     // i번째 주전선수의 spId에 맞는 spName set
                     matchDto.getMatchInfo().get(i).getPlayer().get(j).setSpName(spNameSearch(spNameJson,spId));
-
                 }
             }
         }
-        log.info("matchDto = {}", matchDto);
-        return matchDto;
-    }
-
-    // 선수 고유 id로 선수 이름 추출 api
-    public JSONArray matchPlayerNameApi() {
-        String spNameApi = "https://static.api.nexon.co.kr/fifaonline4/latest/spid.json";
-        String spNameResult = urlConnService.urlConn(spNameApi);
-
-        JSONArray spNameJson = new JSONArray(spNameResult);
         return spNameJson;
 
     }
