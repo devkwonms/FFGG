@@ -1,6 +1,7 @@
 package com.project.soccer.service;
 
 import com.google.gson.Gson;
+import com.project.soccer.dto.Division;
 import com.project.soccer.dto.MatchDto;
 import com.project.soccer.dto.MatchThumbnailDto;
 import lombok.RequiredArgsConstructor;
