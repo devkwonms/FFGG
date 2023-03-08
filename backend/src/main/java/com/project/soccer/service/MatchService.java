@@ -25,11 +25,11 @@ public class MatchService {
     private final UrlConnService urlConnService;
 
     // 유저 고유 식별자로 유저의 매치 기록 썸네일 조회(10개)
-    public List<MatchThumbnailDto> matchRecordApi(String accessId){
+    public List<MatchThumbnailDto> getMatchThumbnail(String accessId){
 
         // 유저 고유 식별자로 유저의 매치 기록(10경기) 조회 API
-        String matchRecordApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+52+"&offset="+0+"&limit="+1;
-        String matchRecordResults = urlConnService.urlConn(matchRecordApi);
+        String getMatchThumbnail = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+52+"&offset="+0+"&limit="+1;
+        String matchRecordResults = urlConnService.urlConn(getMatchThumbnail);
 
         List<MatchThumbnailDto> matchThumbnailList = new ArrayList<>();
 

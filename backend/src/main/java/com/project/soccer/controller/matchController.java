@@ -40,10 +40,10 @@ public class matchController {
         Map<String,Object> resultMap = new HashMap<>();
 
         UserSearchDto userSearchDto = new UserSearchDto();
-        userSearchDto = userSearchService.userSearchApi(userSearchDto, userName);
+        userSearchDto = userSearchService.getUserInfo(userSearchDto, userName);
 
-        List<Map<String,Object>> topTierList = userSearchService.topTierApi(userSearchDto.getAccessId());
-        List<MatchThumbnailDto> matchThumbnailList = matchService.matchRecordApi(userSearchDto.getAccessId());
+        List<Map<String,Object>> topTierList = userSearchService.getTopRank(userSearchDto.getAccessId());
+        List<MatchThumbnailDto> matchThumbnailList = matchService.getMatchThumbnail(userSearchDto.getAccessId());
 
         resultMap.put("userSearchDto", userSearchDto);
         resultMap.put("topTierList", topTierList);

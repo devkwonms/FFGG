@@ -29,15 +29,15 @@ public class UserSearchService {
     @Autowired
     private UrlConnService urlConnService;
 
-    public UserSearchDto userSearchApi (UserSearchDto userSearchDto,String userName) throws UnsupportedEncodingException {
+    public UserSearchDto getUserInfo (UserSearchDto userSearchDto,String userName) throws UnsupportedEncodingException {
 
         userSearchDto.setNickName(userName);
 
         // 유저 닉네임으로 유저 정보 조회 API
-        String userSearchApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=" + URLEncoder.encode(userName,"UTF-8");
+        String getUserInfo = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=" + URLEncoder.encode(userName,"UTF-8");
 
         // 존재하지 않는 닉네임 조회 시의 예외처리
-        String userSearchResult = urlConnService.urlConn(userSearchApi);
+        String userSearchResult = urlConnService.urlConn(getUserInfo);
         if(userSearchResult.isEmpty()) {
             log.info("해당 구단주는 존재하지않습니다!");
             return userSearchDto;
@@ -54,12 +54,12 @@ public class UserSearchService {
         return userSearchDto;
     }
 
-    public List<Map<String,Object>> topTierApi(String accessId){
+    public List<Map<String,Object>> getTopRank(String accessId){
 
         List<Map<String,Object>> topTierList = new ArrayList<>();
 
-        String topTierApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/maxdivision";
-        String topTierResult = urlConnService.urlConn(topTierApi);
+        String getTopRank = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/maxdivision";
+        String topTierResult = urlConnService.urlConn(getTopRank);
 
         JSONArray topTierJson = new JSONArray(topTierResult);
 //        log.info("topTierJson  = {}", topTierJson);
