@@ -11,7 +11,11 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 @Service
@@ -89,7 +93,6 @@ public class MatchService {
                 matchDto.getMatchInfo().get(1).getPlayer().isEmpty()){
             return matchDto;
         }
-
         log.info("matchDto = {}", matchDto);
         return matchDto;
     }
@@ -120,8 +123,22 @@ public class MatchService {
 
     }
 
+    private static Map<Integer, String> cache = new HashMap<>(); // 캐싱을 위한 Map 객체 생성
+    private static Lock lock = new ReentrantLock();
+
     // 이분탐색을 통한 선수 id => 선수 id 매칭 => 선수 이름 추출 method
     private String spNameSearch(JSONArray spNameJson, int spId) {
+
+    // 캐시된 결과가 있는 경우, 캐시에서 값을 가져와서 반환(락을 확보한 스레드만 해당 블록에 접근할 수 있으므로, 성능 문제가 발생할 확률감소)
+        try {
+            lock.lock();
+            if (cache.containsKey(spId)) {
+                log.info("선수이름 caching해서 꺼냄!");
+                return cache.get(spId);
+            }
+        } finally {
+            lock.unlock();
+        }
 
         int min = 0;
         int max = spNameJson.length()-1;
@@ -138,7 +155,9 @@ public class MatchService {
 
             } else { // 3. 찾는값을 발견한 경우
 
-                return spNameJson.getJSONObject(mid).get("name").toString();
+                String name = spNameJson.getJSONObject(mid).get("name").toString();
+                cache.put(spId, name); // 캐시에 결과를 저장
+                return name;
             }
         }
 
