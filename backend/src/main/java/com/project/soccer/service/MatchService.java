@@ -1,9 +1,9 @@
 package com.project.soccer.service;
 
 import com.google.gson.Gson;
-import com.project.soccer.dto.Division;
 import com.project.soccer.dto.MatchDto;
 import com.project.soccer.dto.MatchThumbnailDto;
+import com.project.soccer.dto.PlayerDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -11,9 +11,9 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -28,7 +28,7 @@ public class MatchService {
     public List<MatchThumbnailDto> matchRecordApi(String accessId){
 
         // 유저 고유 식별자로 유저의 매치 기록(10경기) 조회 API
-        String matchRecordApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+52+"&offset="+0+"&limit="+10;
+        String matchRecordApi = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+52+"&offset="+0+"&limit="+1;
         String matchRecordResults = urlConnService.urlConn(matchRecordApi);
 
         List<MatchThumbnailDto> matchThumbnailList = new ArrayList<>();
@@ -93,29 +93,27 @@ public class MatchService {
                 matchDto.getMatchInfo().get(1).getPlayer().isEmpty()){
             return matchDto;
         }
+//        // 선수 이름 추출
+//        JSONArray spNameJson = setMatchPlayerNameApi(matchDto);
+
         log.info("matchDto = {}", matchDto);
         return matchDto;
     }
 
     // 선수 고유 id로 선수 이름 추출 api
     public JSONArray setMatchPlayerNameApi(MatchDto matchDto) {
-        String spNameApi = "https://static.api.nexon.co.kr/fifaonline4/latest/spid.json";
-        String spNameResult = urlConnService.urlConn(spNameApi);
+        String spNameResult = urlConnService.urlConn("https://static.api.nexon.co.kr/fifaonline4/latest/spid.json");
 
         JSONArray spNameJson = new JSONArray(spNameResult);
 
         // 나와 상대선수 각각 18명(총36명) 의 주전선수 고유 id 추출하기
-        for(int i =0 ; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
+            List<PlayerDto> players = matchDto.getMatchInfo().get(i).getPlayer();
             for (int j = 0; j < 18; j++) {
-
-                // spPosition = 28 (교체)인 선수 거르기
-//                int player = matchDto.getMatchInfo().get(i).getPlayer().get(j);
-                if(matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpPosition() != 28){
-
-                    int spId = matchDto.getMatchInfo().get(i).getPlayer().get(j).getSpId();
-
-                    // i번째 주전선수의 spId에 맞는 spName set
-                    matchDto.getMatchInfo().get(i).getPlayer().get(j).setSpName(spNameSearch(spNameJson,spId));
+                int player = players.get(j).getSpPosition();
+                if (player != 28) {
+                    int spId = players.get(j).getSpId();
+                    players.get(j).setSpName(extractPlayerNameById(spNameJson, spId));
                 }
             }
         }
@@ -123,17 +121,17 @@ public class MatchService {
 
     }
 
-    private static Map<Integer, String> cache = new HashMap<>(); // 캐싱을 위한 Map 객체 생성
+    private static Map<Integer, String> cache = new ConcurrentHashMap<>(); // 캐싱을 위한 Map 객체 생성
     private static Lock lock = new ReentrantLock();
 
     // 이분탐색을 통한 선수 id => 선수 id 매칭 => 선수 이름 추출 method
-    private String spNameSearch(JSONArray spNameJson, int spId) {
+    private String extractPlayerNameById(JSONArray spNameJson, int spId) {
 
     // 캐시된 결과가 있는 경우, 캐시에서 값을 가져와서 반환(락을 확보한 스레드만 해당 블록에 접근할 수 있으므로, 성능 문제가 발생할 확률감소)
         try {
             lock.lock();
             if (cache.containsKey(spId)) {
-                log.info("선수이름 caching해서 꺼냄!");
+//                log.info("선수 id {}의 이름을 캐시에서 가져옴", spId);
                 return cache.get(spId);
             }
         } finally {
