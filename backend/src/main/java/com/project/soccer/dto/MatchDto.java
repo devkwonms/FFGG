@@ -25,9 +25,9 @@ public class MatchDto {
         int myMatchEndType = matchDto.getMatchInfo().get(index).getMatchDetail().getMatchEndType();
         int anotherMatchEndType = matchDto.getMatchInfo().get(index == 0? 1:0).getMatchDetail().getMatchEndType();
 
-        if(myResult.equals("오류")|| (myMatchEndType != 0 && myMatchEndType != 1)){
+        if(myResult.equals("오류")|| (myMatchEndType != 0 && myMatchEndType != 1)||(matchDto.getMatchInfo().size()==1 && myResult.equals("패"))){
             myResult = "몰수패";
-        }else if(anotherResult.equals("오류") || (anotherMatchEndType != 0 && anotherMatchEndType != 1)){
+        }else if(anotherResult.equals("오류") || (anotherMatchEndType != 0 && anotherMatchEndType != 1)||(matchDto.getMatchInfo().size()==1 && myResult.equals("승"))){
             myResult = "몰수승";
         }
         return myResult;
