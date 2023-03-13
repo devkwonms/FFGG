@@ -14,7 +14,7 @@ import java.net.URL;
 public class UrlConnService {
 
     // api urlConn method
-    public String urlConn(String api) {
+    public String urlConn(String api) throws IOException {
         StringBuffer result = new StringBuffer();
         System.setProperty("https.protocols", "TLSv1.2");
 
@@ -45,9 +45,11 @@ public class UrlConnService {
         } catch (IOException e) {
             // URL 연결 중 예외 발생
             log.error("URL 연결 중 IOException 발생: {} {}", e.getMessage(), urlConnection);
+            throw e;
         } catch (Exception e) {
             // 그 외 예외 발생
             log.error("예외 발생: {}", e.getMessage());
+            throw e;
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
