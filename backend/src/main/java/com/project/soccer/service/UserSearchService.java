@@ -10,10 +10,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -29,7 +26,7 @@ public class UserSearchService {
     @Autowired
     private UrlConnService urlConnService;
 
-    public UserSearchDto getUserInfo (UserSearchDto userSearchDto,String userName) throws UnsupportedEncodingException {
+    public UserSearchDto getUserInfo (UserSearchDto userSearchDto,String userName) throws IOException {
 
         userSearchDto.setNickName(userName);
 
@@ -54,7 +51,7 @@ public class UserSearchService {
         return userSearchDto;
     }
 
-    public List<Map<String,Object>> getTopRank(String accessId){
+    public List<Map<String,Object>> getTopRank(String accessId) throws IOException {
 
         List<Map<String,Object>> topTierList = new ArrayList<>();
 
