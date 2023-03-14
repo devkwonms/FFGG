@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,7 @@ public class matchController {
 
     @ResponseBody
     @GetMapping("/userSearch/{userName}")
-    public Map<String,Object> userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException {
+    public Map<String,Object> userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException, IOException {
 
         Map<String,Object> resultMap = new HashMap<>();
 
@@ -54,7 +55,7 @@ public class matchController {
 
     @ResponseBody
     @GetMapping("/matchRecordDetail/{matchId}")
-    public MatchDto matchRecordDetail(@PathVariable String matchId){
+    public MatchDto matchRecordDetail(@PathVariable String matchId) throws IOException{
 
         MatchDto matchRecordDetailResult = matchService.matchDetailRecordApi(matchId);
 
