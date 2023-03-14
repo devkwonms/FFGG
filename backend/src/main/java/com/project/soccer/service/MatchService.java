@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,13 @@ public class MatchService {
 
     private final UrlConnService urlConnService;
 
+    static final Gson gson = new Gson();
+
     // 유저 고유 식별자로 유저의 매치 기록 썸네일 조회(10개)
-    public List<MatchThumbnailDto> getMatchThumbnail(String accessId){
+    public List<MatchThumbnailDto> getMatchThumbnail(String accessId) throws IOException {
 
         // 유저 고유 식별자로 유저의 매치 기록(10경기) 조회 API
-        String getMatchThumbnail = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+52+"&offset="+0+"&limit="+1;
+        String getMatchThumbnail = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+52+"&offset="+0+"&limit="+10;
         String matchRecordResults = urlConnService.urlConn(getMatchThumbnail);
 
         List<MatchThumbnailDto> matchThumbnailList = new ArrayList<>();
@@ -62,6 +65,7 @@ public class MatchService {
                 matchThumbnailDto.setMyResult(matchDto.getResult(matchDto,l));
                 matchThumbnailList.add(matchThumbnailDto);
                 continue;
+
             }
 
             matchThumbnailDto.setMyNickName(matchDto.getMatchInfo().get(l).getNickname());
@@ -78,7 +82,7 @@ public class MatchService {
     }
 
     // 매치 상세 기록 조회
-    public MatchDto matchDetailRecordApi(String matchId){
+    public MatchDto matchDetailRecordApi(String matchId) throws IOException {
         // 매치 상세 기록 조회 API
 
         String matchDetailRecordApi = "https://api.nexon.co.kr/fifaonline4/v1.0/matches/"+matchId;
@@ -86,23 +90,32 @@ public class MatchService {
 
         JSONObject matchDetailRecordJson = new JSONObject(matchDetailRecordResult);
 
-        Gson gson = new Gson();
-
         MatchDto matchDto = gson.fromJson(matchDetailRecordJson.toString(), MatchDto.class);
         if(matchDto.getMatchInfo().get(0).getPlayer().isEmpty() ||
                 matchDto.getMatchInfo().get(1).getPlayer().isEmpty()){
             return matchDto;
         }
-//        // 선수 이름 추출
+//        // 선수 이름, 선수이미지url 추출
 //        JSONArray spNameJson = setMatchPlayerNameApi(matchDto);
 
         log.info("matchDto = {}", matchDto);
         return matchDto;
     }
+    // {선수아이디,선수이름}의 데이터를 caching 하기위한 Map 객체선언
+    private static Map<String, String> spNameCache = new ConcurrentHashMap<>();
 
     // 선수 고유 id로 선수 이름 추출 api
-    public JSONArray setMatchPlayerNameApi(MatchDto matchDto) {
-        String spNameResult = urlConnService.urlConn("https://static.api.nexon.co.kr/fifaonline4/latest/spid.json");
+    public JSONArray setMatchPlayerNameApi(MatchDto matchDto) throws IOException {
+
+        // 캐시에 저장된 spNameResult 결과가 있으면 캐시에서 가져오고, 없으면 API 호출
+        String spNameResult;
+
+        if (spNameCache.containsKey("spNameResult")) {
+            spNameResult = spNameCache.get("spNameResult");
+        } else {
+            spNameResult = urlConnService.urlConn("https://static.api.nexon.co.kr/fifaonline4/latest/spid.json");
+            spNameCache.put("spNameResult", spNameResult);
+        }
 
         JSONArray spNameJson = new JSONArray(spNameResult);
 
@@ -112,8 +125,10 @@ public class MatchService {
             for (int j = 0; j < 18; j++) {
                 int player = players.get(j).getSpPosition();
                 if (player != 28) {
+                    // 각 spId(선수식별자) 에 대한 이름추출하는 method, Imgurl 추출하는 method를 호출하여 각각 해당변수에 setting
                     int spId = players.get(j).getSpId();
                     players.get(j).setSpName(extractPlayerNameById(spNameJson, spId));
+                    players.get(j).setSpImgUrl(extractPlayerImgUrl(spId));
                 }
             }
         }
@@ -159,8 +174,22 @@ public class MatchService {
             }
         }
 
-        return "failed!!";
+        // 선수 이름을 찾지 못한 경우 null 반환
+        return null;
     }
+    public String extractPlayerImgUrl(int spId) {
+        String spImgUrl = "https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p" + spId + ".png";
+        String spNameResult = "";
 
-
+        // 예외처리
+        try {
+            spNameResult = urlConnService.urlConn(spImgUrl);
+        } catch (IOException e) {
+            log.error("URL 연결 중 오류가 발생했습니다. url={}", spImgUrl);
+            // 예외발생시 (선수이미지가 원래 없는경우) 디폴트 이미지 삽입
+            spImgUrl = "https://cdn-icons-png.flaticon.com/512/1909/1909621.png";
+            return spImgUrl;
+        }
+        return spImgUrl;
+    }
 }
