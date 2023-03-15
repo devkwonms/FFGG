@@ -1,22 +1,44 @@
+import { Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
-import styled from 'styled-components';
+import styled from "styled-components";
 
+function MatchThumbnailList({
+  matchId,
+  matchDate,
+  myResult,
+  myNickName,
+  anotherNickname,
+  myGoal,
+  anotherGoal,
+}) {
+  const getBackgroundColor = () => {
+    switch (myResult) {
+      case "승":
+        return "#49B4FF";
+      case "패":
+        return "rgb(255, 88, 89)";
+      case "무":
+        return "#D8D8D8";
+      default:
+        return "#49B4FF";
+    }
+  };
 
-function MatchThumbnailList({matchId,matchDate,myResult,myNickName,anotherNickname,myGoal,anotherGoal}){
-
-    return(
-        <GameListWrapper key={matchId}>
-            <GameListBox>
-                <li>매치날짜:{matchDate}</li>
-                <li>내결과:{myResult}</li>
-                <li>내 닉네임:{myNickName}</li>
-                <li>상대 닉네임:{anotherNickname}</li>
-                <li>내 골:{myGoal}</li>
-                <li>상대 골:{anotherGoal}</li>
-            </GameListBox>
-        </GameListWrapper>
-    );
+  return (
+    <GameListWrapper key={matchId}>
+      <GameListBox victory={myResult === {myResult}} backgroundColor={getBackgroundColor()}>
+          <Stack direction={"row"} justifyContent={"space-between"} mt={2}>
+          <Stack ml={2} width={"80%"}>
+          <Typography>{matchDate}</Typography>
+          </Stack>
+          <Stack width={"100%"}>
+              <Typography>{myNickName} {myGoal} : {anotherGoal} {anotherNickname}</Typography></Stack>
+          </Stack>
+      </GameListBox>
+    </GameListWrapper>
+  );
 }
+
 export default MatchThumbnailList;
 
 const GameListWrapper = styled.div`
@@ -24,41 +46,27 @@ const GameListWrapper = styled.div`
   flex-direction: column;
 `;
 
-const VictoryBar = styled.div`
-  width: 3px;
-  margin-right: 0.25rem;
-  border-radius: 5px 0px 0px 5px;
-  transition: all 0.15s ease-in 0s;
-  opacity: 0.8;
-  background-color: ${props => {
-  if(props.victory) {
-    return '#49B4FF';
-  } else {
-    return 'rgb(255, 88, 89)';
-  }
-}};
-`;
-
 const GameListBox = styled.div`
   position: relative;
   left: 0;
-  display: flex;
-  // width: 660px;
-  // height: 65px;
-  background-color: #49B4FF;
+  width: 100%;
+  height: 65px;
+  background-color: ${(props) => props.backgroundColor};
   margin: 7px 0;
   border-radius: 5px;
-  &:hover {
-    transition: left ease 0.5s;
-    left: -6px;
-  };
-  &:hover ${VictoryBar} {
-    opacity: 1;
-    background-color: ${props => {
-  if(props.victory) {
-    return '#24E8CC'
-  } else {
-    return '#FF5859'
-    }}};
-  };
 `;
+
+const GameListInfo = styled.ul`
+  position: relative;
+  list-style: none;
+  padding-left: 10px;
+  font-size: 1.2rem;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+
+  div {
+    margin-bottom: 0.5rem;
+  }
+`;
+
