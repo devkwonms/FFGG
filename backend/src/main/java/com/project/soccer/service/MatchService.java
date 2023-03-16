@@ -27,6 +27,31 @@ public class MatchService {
 
     static final Gson gson = new Gson();
 
+    // matchType(공식경기,클래식1on1(친선경기),감독모드) 받는 method
+    public List<Integer> getMatchType(){
+        List<Integer> matchTypeList = new ArrayList<>();
+
+        int MatchTypeOfficial;
+        int MatchTypeClassic;
+        int MatchTypeDirection;
+        try {
+            MatchTypeOfficial = Integer.parseInt(MatchType.valueOfLabel("공식경기").toString().substring(1, 3));
+            MatchTypeClassic = Integer.parseInt(MatchType.valueOfLabel("클래식 1on1").toString().substring(1, 3));
+            MatchTypeDirection = Integer.parseInt(MatchType.valueOfLabel("감독모드").toString().substring(1, 3));
+            
+        }catch (NumberFormatException e){
+            // 정수형으로 변환할 수 없는 경우 예외 처리
+            System.err.println("MatchType을 정수형으로 변환할 수 없습니다!");
+            MatchTypeOfficial = 0;
+            MatchTypeClassic = 0;
+            MatchTypeDirection = 0;
+        }
+            matchTypeList.add(MatchTypeOfficial);
+            matchTypeList.add(MatchTypeClassic);
+            matchTypeList.add(MatchTypeDirection);
+
+        return matchTypeList;
+    }
     // 유저 고유 식별자로 유저의 매치 기록 썸네일 조회(10개)
     public List<MatchThumbnailDto> getMatchThumbnail(String accessId) throws IOException {
 
