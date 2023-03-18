@@ -65,28 +65,30 @@ public class MatchService {
 
         List<MatchDto> matchDetailList = new ArrayList<>();
 
-        List<MatchThumbnailDto> matchThumbnailList = new ArrayList<>();
+        List<String> matchResultList = new ArrayList<>();
 
-        JSONArray matchRecordJson = new JSONArray(matchRecordResults);
+        // 나의 경기결과
+        String matchResult ="";
 
-        // 매치기록 10개 하나씩 뽑아보기
-        for(int i =0; i<matchRecordJson.length(); i++){
-            String matchId = (String) matchRecordJson.get(i);
+        // 나의 경기결과를 담기위한 List
+
+        // 매치기록 (limit)개 하나씩 뽑아보기
+        for(int i =0; i<matchIdJson.length(); i++){
+            String matchId = (String) matchIdJson.get(i);
 
             // i번째 리스트 상세기록
             MatchDto matchDto = matchDetailRecordApi(matchId);
+            matchDetailList.add(matchDto);
 
-            MatchThumbnailDto matchThumbnailDto = new MatchThumbnailDto();
-            matchThumbnailDto.setMatchId(matchId);
-            matchThumbnailDto.setMatchDate(matchDto.getMatchDate());
-            matchThumbnailDto.setAccessId(accessId);
-
-            // l= 나 , r = 상대로 설정하기위한 조건문
-            int l = 0;
-            int r = 1;
-
-            if (!matchDto.getMatchInfo().get(0).getAccessId().equals(accessId)) {
-                l = 1; r = 0;
+            // i번째 경기마다 내 경기결과 추출 후 List에 담기
+            if(accessId.equals(matchDto.getMatchInfo().get(0).getAccessId())){
+                matchResult = matchDto.getMatchInfo().get(0).getMatchDetail().getMatchResult();
+                matchResultList.add(matchResult);
+            }else if(accessId.equals(matchDto.getMatchInfo().get(1).getAccessId())){
+                matchResult = matchDto.getMatchInfo().get(1).getMatchDetail().getMatchResult();
+                matchResultList.add(matchResult);
+            }else{
+                System.err.println("내 경기결과를 가져오는데에 오류발생!!");
             }
 
             if(matchDto.getMatchInfo().get(l).getMatchDetail().getMatchResult().equals("오류")
