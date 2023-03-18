@@ -53,11 +53,17 @@ public class MatchService {
         return matchTypeList;
     }
     // 유저 고유 식별자로 유저의 매치 기록 썸네일 조회(10개)
-    public List<MatchThumbnailDto> getMatchThumbnail(String accessId) throws IOException {
+    public Map<String,List> getMatchId(String accessId,int matchtype, int offset) throws IOException {
 
         // 유저 고유 식별자로 유저의 매치 기록(10경기) 조회 API
-        String getMatchThumbnail = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+52+"&offset="+0+"&limit="+10;
-        String matchRecordResults = urlConnService.urlConn(getMatchThumbnail);
+        String getMatchId = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+matchtype+"&offset="+offset+"&limit="+10;
+        String matchIdResults = urlConnService.urlConn(getMatchId);
+
+        JSONArray matchIdJson = new JSONArray(matchIdResults);
+
+        Map<String,List> matchInfoMap = new HashMap<>();
+
+        List<MatchDto> matchDetailList = new ArrayList<>();
 
         List<MatchThumbnailDto> matchThumbnailList = new ArrayList<>();
 
