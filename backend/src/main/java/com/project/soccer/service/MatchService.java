@@ -1,9 +1,7 @@
 package com.project.soccer.service;
 
 import com.google.gson.Gson;
-import com.project.soccer.dto.MatchDto;
-import com.project.soccer.dto.MatchThumbnailDto;
-import com.project.soccer.dto.PlayerDto;
+import com.project.soccer.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -90,28 +89,11 @@ public class MatchService {
             }else{
                 System.err.println("내 경기결과를 가져오는데에 오류발생!!");
             }
-
-            if(matchDto.getMatchInfo().get(l).getMatchDetail().getMatchResult().equals("오류")
-                    ||matchDto.getMatchInfo().get(r).getMatchDetail().getMatchResult().equals("오류")){
-                matchThumbnailDto.setMyNickName(matchDto.getMatchInfo().get(l).getNickname());
-                matchThumbnailDto.setAnotherNickname(matchDto.getMatchInfo().get(r).getNickname());
-                matchThumbnailDto.setMyResult(matchDto.getResult(matchDto,l));
-                matchThumbnailList.add(matchThumbnailDto);
-                continue;
-
-            }
-
-            matchThumbnailDto.setMyNickName(matchDto.getMatchInfo().get(l).getNickname());
-            matchThumbnailDto.setMyGoal(matchDto.getMatchInfo().get(l).getShoot().getGoalTotal());
-            matchThumbnailDto.setMyResult(matchDto.getMatchInfo().get(l).getMatchDetail().getMatchResult());
-
-            matchThumbnailDto.setAnotherNickname(matchDto.getMatchInfo().get(r).getNickname());
-            matchThumbnailDto.setAnotherGoal(matchDto.getMatchInfo().get(r).getShoot().getGoalTotal());
-
-            matchThumbnailList.add(matchThumbnailDto);
         }
+        matchInfoMap.put("matchDetailList",matchDetailList);
+        matchInfoMap.put("matchResultList",matchResultList);
 
-        return matchThumbnailList;
+        return matchInfoMap;
     }
 
     // 매치 상세 기록 조회
@@ -124,12 +106,14 @@ public class MatchService {
         JSONObject matchDetailRecordJson = new JSONObject(matchDetailRecordResult);
 
         MatchDto matchDto = gson.fromJson(matchDetailRecordJson.toString(), MatchDto.class);
+
+        // 몰수승or몰수패or오류 로 인한 빈 player 값이 올때의 오류방지 return 처리
         if(matchDto.getMatchInfo().get(0).getPlayer().isEmpty() ||
                 matchDto.getMatchInfo().get(1).getPlayer().isEmpty()){
             return matchDto;
         }
 //        // 선수 이름, 선수이미지url 추출
-//        JSONArray spNameJson = setMatchPlayerNameApi(matchDto);
+        JSONArray spNameJson = setMatchPlayerNameApi(matchDto);
 
         log.info("matchDto = {}", matchDto);
         return matchDto;
@@ -218,7 +202,7 @@ public class MatchService {
         try {
             spNameResult = urlConnService.urlConn(spImgUrl);
         } catch (IOException e) {
-            log.error("URL 연결 중 오류가 발생했습니다. url={}", spImgUrl);
+//            log.error("URL 연결 중 오류가 발생했습니다. url={}", spImgUrl);
             // 예외발생시 (선수이미지가 원래 없는경우) 디폴트 이미지 삽입
             spImgUrl = "https://cdn-icons-png.flaticon.com/512/1909/1909621.png";
             return spImgUrl;
