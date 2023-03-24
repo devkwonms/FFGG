@@ -1,20 +1,15 @@
-import {useEffect, useReducer, useState} from "react";
-import styled from 'styled-components';
-import {Box, Container, Divider, Stack, Tab, Tabs} from "@mui/material"
-
-import Footer from "../components/Footer";
+import { Box, Tab, Tabs } from "@mui/material";
+import { useEffect, useState } from "react";
 import MatchThumbnail from "./MatchThumbnail";
-import Navigation from '../components/Navigation';
-import UserInfo from '../components/UserInfo';
-
 
 function GameList({accessId}){
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
   const [matchType, setMatchType] = useState(50);
-  const [offset, setOffset] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const [numMatches, setNumMatches] = useState(10); // number of matches to display
 
-  const getMatchList = async(matchType) =>{
+  const getMatchList = async(matchType,offset) =>{
     const requestOptions = {
         method: 'GET'
     };
@@ -24,9 +19,13 @@ function GameList({accessId}){
   };
 
   useEffect(()=>{
-    getMatchList(matchType);
-  },[matchType]);
-  
+    getMatchList(matchType,offset);
+  },[matchType,offset]);
+
+  const handleLoadMore = () => {
+    setOffset(offset + 10); // increase the number of matches to display by 10
+  }
+  console.log(list?.matchDetailList?.length)
   return(
   <div>
       
