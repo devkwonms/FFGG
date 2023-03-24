@@ -138,10 +138,10 @@ public class MatchService {
 
             int mid = (min + max) / 2; // 중간 Index를 구하여 검색한다.
 
-            if (Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()) < spId) { // 1. 찾는값이 더 큰 경우 우측에서 찾는다.
+            if ((int)spNameJson.getJSONObject(mid).get("id") < spId) { // 1. 찾는값이 더 큰 경우 우측에서 찾는다.
                 min = mid + 1;
 
-            } else if (Integer.parseInt(spNameJson.getJSONObject(mid).get("id").toString()) > spId) { // 2. 찾는값이 더 작은 경우 좌측에서 찾는다.
+            } else if ((int) spNameJson.getJSONObject(mid).get("id") > spId) { // 2. 찾는값이 더 작은 경우 좌측에서 찾는다.
                 max = mid - 1;
 
             } else { // 3. 찾는값을 발견한 경우
