@@ -23,34 +23,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class MatchService {
 
     private final UrlConnService urlConnService;
+    final static int MATCH_LEAGUE = 50;
 
     static final Gson gson = new Gson();
 
-    // matchType(공식경기,클래식1on1(친선경기),감독모드) 받는 method
-    public List<Integer> getMatchType(){
-        List<Integer> matchTypeList = new ArrayList<>();
-
-        int MatchTypeOfficial;
-        int MatchTypeClassic;
-        int MatchTypeDirection;
-        try {
-            MatchTypeOfficial = Integer.parseInt(MatchType.valueOfLabel("공식경기").toString().substring(1, 3));
-            MatchTypeClassic = Integer.parseInt(MatchType.valueOfLabel("클래식 1on1").toString().substring(1, 3));
-            MatchTypeDirection = Integer.parseInt(MatchType.valueOfLabel("감독모드").toString().substring(1, 3));
-            
-        }catch (NumberFormatException e){
-            // 정수형으로 변환할 수 없는 경우 예외 처리
-            System.err.println("MatchType을 정수형으로 변환할 수 없습니다!");
-            MatchTypeOfficial = 0;
-            MatchTypeClassic = 0;
-            MatchTypeDirection = 0;
-        }
-            matchTypeList.add(MatchTypeOfficial);
-            matchTypeList.add(MatchTypeClassic);
-            matchTypeList.add(MatchTypeDirection);
-
-        return matchTypeList;
-    }
     // 유저 고유 식별자로 유저의 매치 기록 썸네일 조회(10개)
     public Map<String,List> getMatchId(String accessId,int matchtype, int offset) throws IOException {
 
@@ -64,12 +40,7 @@ public class MatchService {
 
         List<MatchDto> matchDetailList = new ArrayList<>();
 
-        List<String> matchResultList = new ArrayList<>();
-
         // 나의 경기결과
-        String matchResult ="";
-
-        // 나의 경기결과를 담기위한 List
 
         // 매치기록 (limit)개 하나씩 뽑아보기
         for(int i =0; i<matchIdJson.length(); i++){
@@ -79,19 +50,9 @@ public class MatchService {
             MatchDto matchDto = matchDetailRecordApi(matchId);
             matchDetailList.add(matchDto);
 
-            // i번째 경기마다 내 경기결과 추출 후 List에 담기
-            if(accessId.equals(matchDto.getMatchInfo().get(0).getAccessId())){
-                matchResult = matchDto.getMatchInfo().get(0).getMatchDetail().getMatchResult();
-                matchResultList.add(matchResult);
-            }else if(accessId.equals(matchDto.getMatchInfo().get(1).getAccessId())){
-                matchResult = matchDto.getMatchInfo().get(1).getMatchDetail().getMatchResult();
-                matchResultList.add(matchResult);
-            }else{
-                System.err.println("내 경기결과를 가져오는데에 오류발생!!");
-            }
+
         }
         matchInfoMap.put("matchDetailList",matchDetailList);
-        matchInfoMap.put("matchResultList",matchResultList);
 
         return matchInfoMap;
     }
@@ -139,7 +100,7 @@ public class MatchService {
         // 나와 상대선수 각각 18명(총36명) 의 주전선수 고유 id 추출하기
         for (int i = 0; i < 2; i++) {
             List<PlayerDto> players = matchDto.getMatchInfo().get(i).getPlayer();
-            for (int j = 0; j < 18; j++) {
+            for (int j = 0; j < players.size(); j++) {
                 int player = players.get(j).getSpPosition();
                 if (player != 28) {
                     // 각 spId(선수식별자) 에 대한 이름추출하는 method, Imgurl 추출하는 method를 호출하여 각각 해당변수에 setting
