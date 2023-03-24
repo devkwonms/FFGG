@@ -1,13 +1,15 @@
+import { Box, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 
-function TopTierList({matchType,division,achievementDate}){
+function TopTierList({matchType,division,achievementDate,divisionImgUrl}){
 
     return(
-        <div key={matchType}>
-            <h4>매치타입:{matchType}</h4>
-            <h4>티어:{division}</h4>
-            <h4>최고티어달성일:{achievementDate}</h4>
-            </div>
+        <Box>
+            <img src={divisionImgUrl}></img>
+            <Typography >{matchType}</Typography>
+            <Typography>{division}</Typography>
+            <Typography>{achievementDate}</Typography>
+        </Box>
     );
 }
 TopTierList.propTypes = {
