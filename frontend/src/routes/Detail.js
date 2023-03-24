@@ -1,11 +1,12 @@
 import {useEffect, useReducer, useState} from "react";
 import {useParams} from "react-router-dom";
 import styled from 'styled-components';
+import {Box, Container, Divider, Stack, Tab, Tabs} from "@mui/material"
 
 import TopTierList from "../components/TopTierList";
 import Footer from "../components/Footer";
-import MatchThumbnailList from "../components/MatchThumbnailList";
 import Navigation from '../components/Navigation';
+import GameList from "../components/GameList";
 
 
 function Detail(){
@@ -43,37 +44,36 @@ function Detail(){
         // console.log(user.userSearchDto)
         // user.accessId 가 null 이면 "해당 구단주는 존재하지 않습니다! 로직 구현(isEmpty 쓰면될듯)"
         console.log(user);
+    console.log(user?.userSearchDto?.accessId);
     return(
     <div>
         <Navigation/>
-        <Header>
+        <Container  maxWidth="xl">
+            <Stack sx={{background:"ivory"}} direction={"row"}>
+        <Header >
             <ul>
-                <li>{user?.userSearchDto?.nickName}</li>
-                <li>{user?.userSearchDto?.level}</li>
+                <div>{user?.userSearchDto?.nickName}</div>
+                <div>레벨 : {user?.userSearchDto?.level}</div>
             </ul>
         </Header>   
-        {user?.topTierList?.map((info) => (
+
+            <Stack justifyContent={"space-around"} flex direction={"row"}>
+        {user?.topTierList?.map((info,i) => (
             <TopTierList
-            key={info?.matchType}
+            key={i}
             matchType = {info?.matchType}
             division = {info?.division}
             achievementDate = {info?.achievementDate}
             divisionImgUrl = {info?.divisionImgUrl}
             />
         ))}
+            </Stack>
+            </Stack>
+        <Box>
+        {user.userSearchDto &&<GameList accessId={user?.userSearchDto?.accessId}/>}
+        </Box>
         <hr />
-        {user?.matchThumbnailList?.map((info) => (
-            <MatchThumbnailList
-            key={info?.matchId}
-            matchDate={info?.matchDate}
-            myResult={info?.myResult}
-            myNickName={info?.myNickName}
-            anotherNickname={info?.anotherNickname}
-            myGoal={info?.myGoal}
-            anotherGoal={info?.anotherGoal}
-            />
-        ))}
-        <hr />
+        </Container>
         <Footer/>
     </div>
     
