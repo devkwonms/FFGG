@@ -47,15 +47,8 @@ public class matchController {
 
         List<Map<String,Object>> topTierList = userSearchService.getTopRank(userSearchDto.getAccessId());
 
-//        Map<String,List> matchInfoMap = matchService.getMatchId(userSearchDto.getAccessId(), matchtype, offset);
-
-//        List<Integer> matchTypeList = matchService.getMatchType();
-//        List<MatchThumbnailDto> matchThumbnailList = matchService.getMatchThumbnail(userSearchDto.getAccessId(), matchtype, limit, offset);
-
         resultMap.put("userSearchDto", userSearchDto);
         resultMap.put("topTierList", topTierList);
-//        resultMap.put("matchThumbnailList", matchThumbnailList);
-//        resultMap.put("matchTypeList", matchTypeList);
 
         return resultMap;
     }
