@@ -1,6 +1,10 @@
-import { Stack, Typography } from "@mui/material";
+import { Accordion, Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function MatchThumbnail({
   matchId,
@@ -25,17 +29,34 @@ function MatchThumbnail({
   };
 
   return (
+    <Accordion>
+      
     <GameListWrapper key={matchId}>
+    <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
       <GameListBox victory={myResult === {myResult}} backgroundColor={getBackgroundColor()}>
           <Stack direction={"row"} justifyContent={"space-between"} mt={2}>
-          <Stack ml={2} width={"80%"}>
-          <Typography>{matchDate}</Typography>
-          </Stack>
-          <Stack width={"100%"}>
-              <Typography>{leftNickName} {leftScore} : {rightScore} {rightNickname}</Typography></Stack>
+            <Stack ml={2} width={"80%"}>
+              <Typography>{matchDate}</Typography>
+            </Stack>
+              <Stack width={"100%"}>
+                <Typography>{leftNickName} {leftScore} : {rightScore} {rightNickname}</Typography>
+              </Stack>
           </Stack>
       </GameListBox>
+      </AccordionSummary>
+      <AccordionDetails>
+      <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            malesuada lacus ex, sit amet blandit leo lobortis eget.
+          </Typography>
+      </AccordionDetails>
     </GameListWrapper>
+    
+    </Accordion>
   );
 }
 
