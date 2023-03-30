@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Accordion, Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -5,6 +6,8 @@ import styled from "styled-components";
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import SoccerField from './field/SoccerField';
 
 function MatchThumbnail({
   matchId,
@@ -29,13 +32,12 @@ function MatchThumbnail({
   };
 
   return (
-    <Accordion>
-      
-    <GameListWrapper key={matchId}>
+    <Accordion sx={{ backgroundColor: "#E6E6FA" }}>
     <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
+          
         >
       <GameListBox victory={myResult === {myResult}} backgroundColor={getBackgroundColor()}>
           <Stack direction={"row"} justifyContent={"space-between"} mt={2}>
@@ -49,13 +51,8 @@ function MatchThumbnail({
       </GameListBox>
       </AccordionSummary>
       <AccordionDetails>
-      <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+        <SoccerField/>
       </AccordionDetails>
-    </GameListWrapper>
-    
     </Accordion>
   );
 }
