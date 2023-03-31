@@ -20,36 +20,180 @@ class Player extends React.Component {
     const { position } = this.props;
 
     switch (position) {
-      case 0:
-        return {
-          top: '25%',
-          left: '10%',
-          backgroundColor: '#F44336', // 빨간색
-        };
-      case 1:
-        return {
-          top: '25%',
-          left: '30%',
-          backgroundColor: '#9C27B0', // 보라색
-        };
-      case 2:
-        return {
-          top: '25%',
-          left: '50%',
-          backgroundColor: '#3F51B5', // 파란색
-        };
-      case 3:
-        return {
-          top: '25%',
-          left: '70%',
-          backgroundColor: '#2196F3', // 연한 파란색
-        };
-      case 4:
-        return {
-          top: '25%',
-          left: '90%',
-          backgroundColor: '#4CAF50', // 초록색
-        };
+      case 0: // GK
+      return {
+        top: '45%',
+        left: '0%',
+        backgroundColor: '#FFD700',
+      };
+    case 1: // SW
+      return {
+        top: '45%',
+        left: '5%',
+        backgroundColor: '#9C27B0',
+      };
+    case 2: // RWB
+      return {
+        top: '80%',
+        left: '12.5%',
+        backgroundColor: '#FFC107',
+      };
+    case 3: // RB
+      return {
+        top: '75%',
+        left: '7.5%',
+        backgroundColor: '#3F51B5',
+      };
+    case 4: // RCB
+      return {
+        top: '60%',
+        left: '7.5%',
+        backgroundColor: '#9C27B0',
+      };
+    case 5: // CB
+      return {
+        top: '45%',
+        left: '7.5%',
+        backgroundColor: '#9C27B0',
+      };
+    case 6: // LCB
+      return {
+        top: '30%',
+        left: '7.5%',
+        backgroundColor: '#9C27B0',
+      };
+    case 7: // LB
+      return {
+        top: '15%',
+        left: '7.5%',
+        backgroundColor: '#3F51B5',
+      };
+    case 8: // LWB
+      return {
+        top: '80%',
+        left: '45%',
+        backgroundColor: '#FFC107',
+      };
+    case 9: // RDM
+      return {
+        top: '90%',
+        left: '30%',
+        backgroundColor: '#9C27B0',
+      };
+    case 10: // CDM
+      return {
+        top: '90%',
+        left: '50%',
+        backgroundColor: '#3F51B5',
+      };
+    case 11: // LDM
+      return {
+        top: '90%',
+        left: '70%',
+        backgroundColor: '#2196F3',
+      };
+    case 12: // RM
+      return {
+        top: '30%',
+        left: '40%',
+        backgroundColor: '#FFC107',
+      };
+    case 13: // RCM
+      return {
+        top: '50%',
+        left: '50%',
+        backgroundColor: '#FFC107',
+      };
+    case 14: // CM
+      return {
+        top: '50%',
+        left: '50%',
+        backgroundColor: '#FFC107',
+      };
+    case 15: // LCM
+      return {
+        top: '50%',
+        left: '50%',
+        backgroundColor: '#FFC107',
+      };
+    case 16: // LM
+      return {
+        top: '70%',
+        left: '40%',
+        backgroundColor: '#FFC107',
+      };
+    case 17: // RAM
+      return {
+        top: '30%',
+        left: '60%',
+        backgroundColor: '#9C27B0',
+      };
+    case 18: // CAM
+      return {
+        top: '50%',
+        left: '50%',
+        backgroundColor: '#FFC107',
+      };
+    case 19: // LAM
+      return {
+        top: '70%',
+        left: '60%',
+        backgroundColor: '#2196F3',
+      };
+    case 20: // RF
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
+      case 21: // CF
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
+      case 22: // LF
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
+      case 23: // RW
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
+      case 24: // RS
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
+      case 25: // ST
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
+      case 26: // LS
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
+      case 27: // LW
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
+      case 28: // SUB
+      return {
+        top: '20%',
+        left: '25%',
+        backgroundColor: '#9C27B0',
+      };
       // 나머지 case들도 구현하면 됩니다.
       default:
         return {
@@ -61,7 +205,7 @@ class Player extends React.Component {
   };
 
   render() {
-    const { number, playerName, imageUrl } = this.props;
+    const { spPosition, number, playerName, imageUrl} = this.props;
 
     return (
       <PlayerContainer style={this.getPositionStyle()}>
