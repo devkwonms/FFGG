@@ -17,6 +17,8 @@ function MatchThumbnail({
   rightNickname,
   leftScore,
   rightScore,
+  leftSpPosition,
+  rightSpPosition
 }) {
   const getBackgroundColor = () => {
     switch (myResult) {
@@ -32,7 +34,7 @@ function MatchThumbnail({
   };
 
   return (
-    <Accordion sx={{ backgroundColor: "#E6E6FA" }}>
+    <Accordion sx={{ backgroundColor: "#AFEEEE" }}>
     <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -46,6 +48,7 @@ function MatchThumbnail({
             </Stack>
               <Stack width={"100%"}>
                 <Typography>{leftNickName} {leftScore} : {rightScore} {rightNickname}</Typography>
+                <Typography>{leftSpPosition}  : {rightSpPosition}</Typography>
               </Stack>
           </Stack>
       </GameListBox>
