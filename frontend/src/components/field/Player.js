@@ -35,7 +35,7 @@ class Player extends React.Component {
     case 2: // RWB
       return {
         top: '80%',
-        left: '12.5%',
+        left: '10%',
         backgroundColor: '#FFC107',
       };
     case 3: // RB
@@ -70,26 +70,26 @@ class Player extends React.Component {
       };
     case 8: // LWB
       return {
-        top: '80%',
-        left: '45%',
+        top: '10%',
+        left: '10%',
         backgroundColor: '#FFC107',
       };
     case 9: // RDM
       return {
-        top: '90%',
-        left: '30%',
+        top: '60%',
+        left: '15%',
         backgroundColor: '#9C27B0',
       };
     case 10: // CDM
       return {
-        top: '90%',
-        left: '50%',
+        top: '45%',
+        left: '15%',
         backgroundColor: '#3F51B5',
       };
     case 11: // LDM
       return {
-        top: '90%',
-        left: '70%',
+        top: '30%',
+        left: '15%',
         backgroundColor: '#2196F3',
       };
     case 12: // RM
