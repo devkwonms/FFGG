@@ -94,7 +94,7 @@ class Player extends React.Component {
       };
     case 12: // RM
       return {
-        top: '30%',
+        top: '60%',
         left: '40%',
         backgroundColor: '#FFC107',
       };
