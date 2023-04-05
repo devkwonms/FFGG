@@ -14,17 +14,17 @@ width: 50px;
 margin-bottom: 5px;
 `;
 
-const Player2 = ({imageUrl="",number=1,playerName="aa"}) =>{
+// const Player2 = ({imageUrl="",number=10,playerName="aa"}) =>{
 
-  return (
-    <div style={{display:"block"}}>
-  <PlayerContainer style={{width:50,height:50}}>
-    <PlayerImage src={imageUrl} alt={`Player ${number}`} />
-    <div>{playerName}</div>
-    <div>{number}</div>
-  </PlayerContainer></div>
-);
-}
+//   return (
+//     <div style={{display:"block"}}>
+//   <PlayerContainer style={{width:50,height:50}}>
+//     <PlayerImage src={imageUrl} alt={`Player ${number}`} />
+//     <div>{playerName}</div>
+//     <div>{number}</div>
+//   </PlayerContainer></div>
+// );
+// }
     
 const SoccerField = () => {
   return (
@@ -33,9 +33,40 @@ const SoccerField = () => {
         <Player number={2} position={1} />
         <Player number={3} position={2} />
         <Player number={4} position={3} />
-        <div style={{justifyContent:"space-around" ,width:650,height:600, display:"flex"}}>
+        <Player number={5} position={4} />
+        <Player number={6} position={5} />
+        <Player number={7} position={6} />
+        <Player number={8} position={7} />
+        <Player number={9} position={8} />
+        <Player number={10} position={9} />
+        <Player number={11} position={10} />
+        <Player number={12} position={11} />
+        <Player number={13} position={12} />
+        <Player number={14} position={13} />
+        <Player number={15} position={14} />
+        <Player number={16} position={15} />
+        <Player number={17} position={16} />
+        <Player number={18} position={17} />
+        <Player number={19} position={18} />
+        <Player number={20} position={19} />
+        <Player number={21} position={20} />
+        <Player number={22} position={21} />
+        <Player number={23} position={22} />
+        <Player number={24} position={23} />
+        <Player number={25} position={24} />
+        <Player number={26} position={25} />
+        <Player number={27} position={26} />
+        <Player number={28} position={27} />
+        <Player number={29} position={28} />
+        {/* <div style={{justifyContent:"space-around" ,width:650,height:600, display:"flex"}}>
         <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
       <Player2  />
+        </div>
+        <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
+        <Player2  />
+        <Player2  />
+        <Player2  />
+        <Player2  />
         </div>
         <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
       <Player2  />
@@ -56,17 +87,8 @@ const SoccerField = () => {
         <Player2  />
         </div>
         <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
-      <Player2  />
-        <Player2  />
-        <Player2  />
-        <Player2  />
         </div>
-        <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
-      <Player2  />
-        <Player2  />
-        <Player2  />
-        <Player2  />
-        </div></div>
+        </div> */}
       <FieldLines />
       <FieldLines />
       <FieldLines />
