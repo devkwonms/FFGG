@@ -13,9 +13,18 @@ function GameList({accessId}){
     const requestOptions = {
         method: 'GET'
     };
+    if(matchType === 50||matchType === 40||matchType === 52){
     const json = await (await fetch(`/api/matches/${accessId}/${matchType}/${offset}`, requestOptions)).json();
-  
     setList(json);
+    }
+    else if(matchType === 10){
+      const json = await (await fetch(`/api/userSearch/호날두`, requestOptions)).json();
+      setList(json);
+    }
+    else{
+      console.log("fetch error!");
+    }  
+    
   };
 
   useEffect(()=>{
@@ -25,7 +34,21 @@ function GameList({accessId}){
   const handleLoadMore = () => {
     setOffset(offset + 10); // increase the number of matches to display by 10
   }
+  
   console.log(list?.matchDetailList?.length)
+
+  const spPositions = []; // spPosition 값을 저장할 배열 생성
+list?.matchDetailList?.forEach((info) => {
+  info?.matchInfo?.forEach((matchInfo) => {
+    matchInfo?.player?.forEach((player) => {
+      if (player?.spPosition) {
+        spPositions.push(player?.spPosition);
+      }
+    });
+  });
+});
+
+console.log(spPositions);
   return(
   <div>
       
@@ -35,6 +58,7 @@ function GameList({accessId}){
         <Tab label="공식경기" value={50} />
         <Tab label="친선경기" value={40} />
         <Tab label="감독모드" value={52} />
+        <Tab label="나의 선수랭킹" value={10} />
       </Tabs>
         {list?.matchDetailList?.map((info) => (
             <MatchThumbnail
@@ -46,6 +70,7 @@ function GameList({accessId}){
             leftScore={info?.matchInfo[0]?.shoot?.goalTotal}
             rightScore={info?.matchInfo[1]?.shoot?.goalTotal}
             />
+            
         ))}
         </Box>
     </div>
