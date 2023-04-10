@@ -142,50 +142,50 @@ class Player extends React.Component {
       };
     case 20: // RF
       return {
-        top: '20%',
-        left: '35%',
+        top: '60%',
+        left: '37.5%',
         backgroundColor: '#9C27B0',
       };
       case 21: // CF
       return {
         top: '45%',
-        left: '35%',
+        left: '37.5%',
         backgroundColor: '#9C27B0',
       };
       case 22: // LF
       return {
-        top: '20%',
-        left: '35%',
+        top: '30%',
+        left: '37.5%',
         backgroundColor: '#9C27B0',
       };
       case 23: // RW
       return {
-        top: '20%',
-        left: '25%',
+        top: '75%',
+        left: '37.5%',
         backgroundColor: '#9C27B0',
       };
       case 24: // RS
       return {
-        top: '20%',
-        left: '25%',
+        top: '60%',
+        left: '45%',
         backgroundColor: '#9C27B0',
       };
       case 25: // ST
       return {
-        top: '20%',
-        left: '25%',
+        top: '45%',
+        left: '45%',
         backgroundColor: '#9C27B0',
       };
       case 26: // LS
       return {
-        top: '20%',
-        left: '25%',
+        top: '30%',
+        left: '45%',
         backgroundColor: '#9C27B0',
       };
       case 27: // LW
       return {
-        top: '20%',
-        left: '25%',
+        top: '15%',
+        left: '37.5%',
         backgroundColor: '#9C27B0',
       };
       case 28: // SUB
