@@ -94,68 +94,68 @@ class Player extends React.Component {
       };
     case 12: // RM
       return {
-        top: '60%',
-        left: '40%',
+        top: '75%',
+        left: '22.5%',
         backgroundColor: '#FFC107',
       };
     case 13: // RCM
       return {
-        top: '50%',
-        left: '50%',
+        top: '60%',
+        left: '22.5%',
         backgroundColor: '#FFC107',
       };
     case 14: // CM
       return {
-        top: '50%',
-        left: '50%',
+        top: '45%',
+        left: '22.5%',
         backgroundColor: '#FFC107',
       };
     case 15: // LCM
       return {
-        top: '50%',
-        left: '50%',
+        top: '30%',
+        left: '22.5%',
         backgroundColor: '#FFC107',
       };
     case 16: // LM
       return {
-        top: '70%',
-        left: '40%',
+        top: '15%',
+        left: '22.5%',
         backgroundColor: '#FFC107',
       };
     case 17: // RAM
       return {
-        top: '30%',
-        left: '60%',
+        top: '60%',
+        left: '30%',
         backgroundColor: '#9C27B0',
       };
     case 18: // CAM
       return {
-        top: '50%',
-        left: '50%',
+        top: '45%',
+        left: '30%',
         backgroundColor: '#FFC107',
       };
     case 19: // LAM
       return {
-        top: '70%',
-        left: '60%',
+        top: '30%',
+        left: '30%',
         backgroundColor: '#2196F3',
       };
     case 20: // RF
       return {
         top: '20%',
-        left: '25%',
+        left: '35%',
         backgroundColor: '#9C27B0',
       };
       case 21: // CF
       return {
-        top: '20%',
-        left: '25%',
+        top: '45%',
+        left: '35%',
         backgroundColor: '#9C27B0',
       };
       case 22: // LF
       return {
         top: '20%',
-        left: '25%',
+        left: '35%',
         backgroundColor: '#9C27B0',
       };
       case 23: // RW
