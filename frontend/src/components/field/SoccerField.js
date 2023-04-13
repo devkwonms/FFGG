@@ -57,7 +57,7 @@ const SoccerField = () => {
         <Player number={26} position={25} />
         <Player number={27} position={26} />
         <Player number={28} position={27} />
-        <Player number={29} position={28} />
+        {/* <Player number={29} position={28} /> */}
         {/* <div style={{justifyContent:"space-around" ,width:650,height:600, display:"flex"}}>
         <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
       <Player2  />
