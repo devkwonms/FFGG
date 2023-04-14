@@ -41,12 +41,14 @@ public class UrlConnService {
                 throw new IOException("서버 응답 코드가 " + responseCode + "입니다.");
             }
         } catch (MalformedURLException e) {
-            log.error("잘못된 URL 입니다. url={}", api);
-        } catch (IOException e) {
+//            log.error("잘못된 URL 입니다. url={}", api);
+        }
+        catch (IOException e) {
             // URL 연결 중 예외 발생
-            log.error("URL 연결 중 IOException 발생: {} {}", e.getMessage(), urlConnection);
+//            log.error("URL 연결 중 IOException 발생: {} {}", e.getMessage(), urlConnection);
             throw e;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // 그 외 예외 발생
             log.error("예외 발생: {}", e.getMessage());
             throw e;
