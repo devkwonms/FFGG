@@ -50,6 +50,7 @@ class Player extends React.Component {
         left: '7.5%',
         backgroundColor: '#9C27B0',
       };
+      // 수비
     case 5: // CB
       return {
         top: '45%',
@@ -74,6 +75,7 @@ class Player extends React.Component {
         left: '10%',
         backgroundColor: '#FFC107',
       };
+      // 미드필더
     case 9: // RDM
       return {
         top: '60%',
@@ -140,6 +142,7 @@ class Player extends React.Component {
         left: '30%',
         backgroundColor: '#2196F3',
       };
+      // 공격수
     case 20: // RF
       return {
         top: '60%',
