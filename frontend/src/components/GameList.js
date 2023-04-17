@@ -17,13 +17,15 @@ function GameList({accessId}){
     const json = await (await fetch(`/api/matches/${accessId}/${matchType}/${offset}`, requestOptions)).json();
     setList(json);
     }
-    else if(matchType === 10){
-      const json = await (await fetch(`/api/userSearch/호날두`, requestOptions)).json();
-      setList(json);
-    }
-    else{
-      console.log("fetch error!");
-    }  
+
+    // matchType 에러시 예외처리 구문(미완)
+    // else if(matchType === 10){
+    //   const json = await (await fetch(`/api/userSearch/호날두`, requestOptions)).json();
+    //   setList(json);
+    // }
+    // else{
+    //   console.log("fetch error!");
+    // }  
     
   };
 
@@ -35,7 +37,7 @@ function GameList({accessId}){
     setOffset(offset + 10); // increase the number of matches to display by 10
   }
   
-  console.log(list?.matchDetailList?.length)
+  // console.log(list?.matchDetailList?.length)
 
   const spPositions = []; // spPosition 값을 저장할 배열 생성
 list?.matchDetailList?.forEach((info) => {
