@@ -18,7 +18,8 @@ function MatchThumbnail({
   leftScore,
   rightScore,
   leftSpPosition,
-  rightSpPosition
+  rightSpPosition,
+  matchInfo
 }) {
   const getBackgroundColor = () => {
     switch (myResult) {
@@ -32,7 +33,7 @@ function MatchThumbnail({
         return "#49B4FF";
     }
   };
-
+//  console.log(matchInfo);
   return (
     <Accordion sx={{ backgroundColor: "#AFEEEE" }}>
     <AccordionSummary
@@ -48,13 +49,13 @@ function MatchThumbnail({
             </Stack>
               <Stack width={"100%"}>
                 <Typography>{leftNickName} {leftScore} : {rightScore} {rightNickname}</Typography>
-                <Typography>{leftSpPosition}  : {rightSpPosition}</Typography>
+                {/* <Typography>{leftSpPosition}  : {rightSpPosition}</Typography> */}
               </Stack>
           </Stack>
       </GameListBox>
       </AccordionSummary>
       <AccordionDetails>
-        <SoccerField/>
+        <SoccerField matchInfo = {matchInfo}/>
       </AccordionDetails>
     </Accordion>
   );
