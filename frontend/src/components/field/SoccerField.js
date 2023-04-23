@@ -1,32 +1,14 @@
 import styled from 'styled-components';
 import Player from "./Player";
 
-const PlayerContainer = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-color: #fff;
-font-weight: bold;
-`;
-const PlayerImage = styled.img`
-height: 50px;
-width: 50px;
-margin-bottom: 5px;
-`;
+function SoccerField({matchInfo}){
+  console.log(matchInfo);
+  
+  const leftMatchInfo = matchInfo[0];
+  const rightMatchInfo = matchInfo[1];
 
-// const Player2 = ({imageUrl="",number=10,playerName="aa"}) =>{
-
-//   return (
-//     <div style={{display:"block"}}>
-//   <PlayerContainer style={{width:50,height:50}}>
-//     <PlayerImage src={imageUrl} alt={`Player ${number}`} />
-//     <div>{playerName}</div>
-//     <div>{number}</div>
-//   </PlayerContainer></div>
-// );
-// }
-    
-const SoccerField = () => {
+  console.log(leftMatchInfo)
+  console.log(rightMatchInfo)
   return (
     <Field>
         <Player number={1} position={0} />
@@ -58,6 +40,7 @@ const SoccerField = () => {
         <Player number={27} position={26} />
         <Player number={28} position={27} />
         {/* <Player number={29} position={28} /> */}
+
         {/* <div style={{justifyContent:"space-around" ,width:650,height:600, display:"flex"}}>
         <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
       <Player2  />
