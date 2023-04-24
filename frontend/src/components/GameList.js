@@ -71,8 +71,8 @@ console.log(spPositions);
             rightNickname={info?.matchInfo[1]?.nickname}
             leftScore={info?.matchInfo[0]?.shoot?.goalTotal}
             rightScore={info?.matchInfo[1]?.shoot?.goalTotal}
+            matchInfo={info?.matchInfo}
             />
-            
         ))}
         </Box>
     </div>
