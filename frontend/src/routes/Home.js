@@ -1,10 +1,8 @@
 import {useEffect, useReducer, useState} from "react";
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import Footer from '../components/Footer';
 import bgImg from '../image/messi.jpg';
-import logoImg from '../image/ball2.png';
-
+import Navigation from '../components/Navigation';
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"></link>
 
 const Home = () => {
@@ -32,14 +30,11 @@ const handleOnKeyPress = e => {
     console.log(e.key);
     handleOnClick(input);
   }
-};  
+};
+  
     return (
         <HomeContainer>
-            <HomeMainImg 
-                src={logoImg}
-                alt="logo"
-            />
-            <LogoText>FF.GG</LogoText>
+          <Navigation/>
             <FormContainer>
                 <Form>
                     <Input
