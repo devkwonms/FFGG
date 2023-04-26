@@ -197,7 +197,7 @@ class Player extends React.Component {
         left: '25%',
         backgroundColor: '#9C27B0',
       };
-      // 나머지 case들도 구현하면 됩니다.
+      // default(오류 시)
       default:
         return {
           top: '0',
