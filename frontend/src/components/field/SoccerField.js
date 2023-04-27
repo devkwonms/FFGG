@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import Player from "./Player";
 
 function SoccerField({matchInfo}){
-  console.log(matchInfo);
+  // console.log(matchInfo);
   
   const leftMatchInfo = matchInfo[0];
   const rightMatchInfo = matchInfo[1];
 
   console.log(leftMatchInfo)
   console.log(rightMatchInfo)
+
   return (
     <Field>
         <Player number={1} position={0} />
@@ -39,39 +40,6 @@ function SoccerField({matchInfo}){
         <Player number={26} position={25} />
         <Player number={27} position={26} />
         <Player number={28} position={27} />
-        {/* <Player number={29} position={28} /> */}
-
-        {/* <div style={{justifyContent:"space-around" ,width:650,height:600, display:"flex"}}>
-        <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
-      <Player2  />
-        </div>
-        <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
-        <Player2  />
-        <Player2  />
-        <Player2  />
-        <Player2  />
-        </div>
-        <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
-      <Player2  />
-        <Player2  />
-        <Player2  />
-        <Player2  />
-        </div>
-        <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
-      <Player2  />
-        <Player2  />
-        <Player2  />
-        <Player2  />
-        </div>
-        <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
-      <Player2  />
-        <Player2  />
-        <Player2  />
-        <Player2  />
-        </div>
-        <div style={{justifyContent:"space-around" ,width:100,height:600, display:"flex",flexDirection: "column"}}>
-        </div>
-        </div> */}
       <FieldLines />
       <FieldLines />
       <FieldLines />
