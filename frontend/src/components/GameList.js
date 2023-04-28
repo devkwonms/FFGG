@@ -39,18 +39,18 @@ function GameList({accessId}){
   
   // console.log(list?.matchDetailList?.length)
 
-  const spPositions = []; // spPosition 값을 저장할 배열 생성
-list?.matchDetailList?.forEach((info) => {
-  info?.matchInfo?.forEach((matchInfo) => {
-    matchInfo?.player?.forEach((player) => {
-      if (player?.spPosition) {
-        spPositions.push(player?.spPosition);
-      }
-    });
-  });
-});
+//   const spPositions = []; // spPosition 값을 저장할 배열 생성
+// list?.matchDetailList?.forEach((info) => {
+//   info?.matchInfo?.forEach((matchInfo) => {
+//     matchInfo?.player?.forEach((player) => {
+//       if (player?.spPosition) {
+//         spPositions.push(player?.spPosition);
+//       }
+//     });
+//   });
+// });
 
-console.log(spPositions);
+// console.log(spPositions);
   return(
   <div>
       
