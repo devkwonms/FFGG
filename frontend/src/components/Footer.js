@@ -3,7 +3,7 @@ import React from 'react';
 function Footer() {
   return (
     <footer >
-      <p>&copy; {new Date().getFullYear()} My Company</p>
+      <p>&copy; {new Date().getFullYear()} minseo</p>
     </footer>
   );
 }

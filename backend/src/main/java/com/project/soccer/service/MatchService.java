@@ -50,7 +50,6 @@ public class MatchService {
             MatchDto matchDto = matchDetailRecordApi(matchId);
             matchDetailList.add(matchDto);
 
-
         }
         matchInfoMap.put("matchDetailList",matchDetailList);
 
@@ -151,7 +150,6 @@ public class MatchService {
                 return name;
             }
         }
-
         // 선수 이름을 찾지 못한 경우 null 반환
         return null;
     }
