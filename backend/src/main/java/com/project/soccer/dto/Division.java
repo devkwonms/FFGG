@@ -39,10 +39,7 @@ public enum Division {
     public String divisionImgUrl() {
         return divisionImgUrl;
     }
-    public static Map<String, String> getAllLabelsAndUrls() {
-        return Stream.of(values())
-                .collect(Collectors.toMap(Division::label, Division::divisionImgUrl));
-    }
+
     // 캐싱해서 순회를 피해 label 값 추출
     private static final Map<String, Division> BY_LABEL =
             Stream.of(values()).collect(Collectors.toMap(Division::label, e -> e));
