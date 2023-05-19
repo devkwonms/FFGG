@@ -28,10 +28,10 @@ public class MatchService {
     static final Gson gson = new Gson();
 
     // 유저 고유 식별자로 유저의 매치 기록 썸네일 조회(10개)
-    public Map<String,List> getMatchId(String accessId,int matchtype, int offset) throws IOException {
+    public Map<String,List> getMatchId(String accessId,int matchtype, int offset, int limit) throws IOException {
 
         // 유저 고유 식별자로 유저의 매치 기록(10경기) 조회 API
-        String getMatchId = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+matchtype+"&offset="+offset+"&limit="+10;
+        String getMatchId = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+matchtype+"&offset="+offset+"&limit="+limit;
         String matchIdResults = urlConnService.urlConn(getMatchId);
 
         JSONArray matchIdJson = new JSONArray(matchIdResults);
