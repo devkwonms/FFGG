@@ -67,16 +67,17 @@ public class UserSearchService {
             JSONObject jsonObject = topTierJson.getJSONObject(i);
 
             int matchType = jsonObject.getInt("matchType");
+            log.info("matchType  = {}", matchType);
+
             // matchType => enum의 label으로 값 추출
             String matchTypeEnum = MatchType.valueOf("M"+matchType).label();
-
             int division = jsonObject.getInt("division");
             // matchType => enum의 label으로 값 추출
-            String divisionEnum = Division.valueOf("T"+division).label();
+            String divisionEnum = Division.valueOf("T"+division).getLabel();
             String achievementDate = jsonObject.getString("achievementDate").substring(0,10);   // YYYY-MM-DD 까지만 추출
 
             // matchType별 각 division에 대한 img를 추출하기위한 url 값 얻기
-            String divisionImgUrl = Division.valueOf("T"+division).divisionImgUrl();
+            String divisionImgUrl = Division.valueOf("T"+division).getDivisionImgUrl();
 
             Map<String,Object> topTierMap = new HashMap<>();
             topTierMap.put("matchType",matchTypeEnum);
