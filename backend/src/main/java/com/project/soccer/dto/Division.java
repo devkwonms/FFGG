@@ -1,50 +1,64 @@
 package com.project.soccer.dto;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Division {
-    T800("슈퍼챔피언스","https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank0.png"),
-    T900("챔피언스", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank1.png"),
-    T1000("슈퍼챌린지", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank2.png"),
-    T1100("챌린지1", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank3.png"),
-    T1200("챌린지2", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank4.png"),
-    T1300("챌린지3", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank5.png"),
-    T2000("월드클래스1", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank6.png"),
-    T2100("월드클래스2", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank7.png"),
-    T2200("월드클래스3", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank8.png"),
-    T2300("프로1", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank9.png"),
-    T2400("프로2", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank10.png"),
-    T2500("프로3", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank11.png"),
-    T2600("세미프로1", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank12.png"),
-    T2700("세미프로2", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank13.png"),
-    T2800("세미프로3", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank14.png"),
-    T2900("유망주1", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank15.png"),
-    T3000("유망주2", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank16.png"),
-    T3100("유망주3", "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank17.png");
+    T800("슈퍼챔피언스", 0),
+    T900("챔피언스", 1),
+    T1000("슈퍼챌린지", 2),
+    T1100("챌린지1", 3),
+    T1200("챌린지2", 4),
+    T1300("챌린지3", 5),
+    T2000("월드클래스1", 6),
+    T2100("월드클래스2", 7),
+    T2200("월드클래스3", 8),
+    T2300("프로1", 9),
+    T2400("프로2", 10),
+    T2500("프로3", 11),
+    T2600("세미프로1", 12),
+    T2700("세미프로2", 13),
+    T2800("세미프로3", 14),
+    T2900("유망주1", 15),
+    T3000("유망주2", 16),
+    T3100("유망주3", 17);
 
+    private static final String BASE_URL = "https://ssl.nexon.com/s2/game/fo4/obt/rank/large/update_2009/ico_rank";
+    private static final String IMAGE_EXTENSION = ".png";
+    private static final Map<Integer, Division> BY_INDEX = new HashMap<>();
+
+    static {
+        for (Division division : values()) {
+            BY_INDEX.put(division.getDivisionIndex(), division);
+        }
+    }
 
     private final String label;
-    private final String divisionImgUrl;
+    private final int divisionIndex;
 
-    Division(String label, String divisionImgUrl) {
+    Division(String label, int divisionIndex) {
         this.label = label;
-        this.divisionImgUrl = divisionImgUrl;
+        this.divisionIndex = divisionIndex;
     }
 
-    public String label() {
+    public String getLabel() {
         return label;
     }
-    public String divisionImgUrl() {
-        return divisionImgUrl;
+
+    public String getDivisionImgUrl() {
+        return BASE_URL + divisionIndex + IMAGE_EXTENSION;
     }
 
-    // 캐싱해서 순회를 피해 label 값 추출
-    private static final Map<String, Division> BY_LABEL =
-            Stream.of(values()).collect(Collectors.toMap(Division::label, e -> e));
+    public int getDivisionIndex() {
+        return divisionIndex;
+    }
 
     public static Division valueOfLabel(String label) {
-        return BY_LABEL.get(label);
+        return Stream.of(values())
+                .filter(division -> division.getLabel().equals(label))
+                .findFirst()
+                .orElse(null);
     }
 }
