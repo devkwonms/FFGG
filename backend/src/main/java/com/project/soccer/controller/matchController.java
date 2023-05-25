@@ -30,40 +30,44 @@ public class matchController {
     private final MatchService matchService;
 
     @GetMapping
-    public String user(){
+    public String user() {
 
         return "api/userSearch";
     }
 
     @ResponseBody
     @GetMapping("/userSearch/{userName}")
-    public Map<String,Object> userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException, IOException {
+    public Map<String, Object> userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException, IOException {
 
-        Map<String,Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
 
         UserSearchDto userSearchDto = new UserSearchDto();
 
         userSearchDto = userSearchService.getUserInfo(userSearchDto, userName);
 
-        List<Map<String,Object>> topTierList = userSearchService.getTopRank(userSearchDto.getAccessId());
+        List<Map<String, Object>> topTierList = userSearchService.getTopRank(userSearchDto.getAccessId());
 
         resultMap.put("userSearchDto", userSearchDto);
         resultMap.put("topTierList", topTierList);
 
         return resultMap;
     }
-    @ResponseBody
-    @GetMapping("/matches/{accessId}/{matchtype}/{offset}")
-    public Map<String,List> getMatchId(@PathVariable String accessId,@PathVariable int matchtype, @PathVariable int offset) throws IOException {
 
-        Map<String,List> matchInfoMap = matchService.getMatchId(accessId, matchtype, offset);
+    @ResponseBody
+    @GetMapping("/matches/{accessId}/{matchtype}/{offset}/{limit}")
+    public Map<String, List> getMatchId(@PathVariable String accessId,
+                                        @PathVariable int matchtype,
+                                        @PathVariable int offset,
+                                        @PathVariable int limit) throws IOException {
+
+        Map<String, List> matchInfoMap = matchService.getMatchId(accessId, matchtype, offset, limit);
 
         return matchInfoMap;
     }
 
     @ResponseBody
     @GetMapping("/matchRecordDetail/{matchId}")
-    public MatchDto matchRecordDetail(@PathVariable String matchId) throws IOException{
+    public MatchDto matchRecordDetail(@PathVariable String matchId) throws IOException {
 
         MatchDto matchRecordDetailResult = matchService.matchDetailRecordApi(matchId);
 
