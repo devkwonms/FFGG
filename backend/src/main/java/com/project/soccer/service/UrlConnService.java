@@ -42,6 +42,7 @@ public class UrlConnService {
             }
         } catch (MalformedURLException e) {
 //            log.error("잘못된 URL 입니다. url={}", api);
+            throw e;
         }
         catch (IOException e) {
             // URL 연결 중 예외 발생
