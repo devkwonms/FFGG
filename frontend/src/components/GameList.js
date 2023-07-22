@@ -7,14 +7,14 @@ function GameList({accessId}){
   const [list, setList] = useState([]);
   const [matchType, setMatchType] = useState(50);
   const [offset, setOffset] = useState(0);
-  const [numMatches, setNumMatches] = useState(10); // number of matches to display
+  const [limit, setLimit] = useState(10);
 
   const getMatchList = async(matchType,offset) =>{
     const requestOptions = {
         method: 'GET'
     };
     if(matchType === 50||matchType === 40||matchType === 52){
-    const json = await (await fetch(`/api/matches/${accessId}/${matchType}/${offset}`, requestOptions)).json();
+    const json = await (await fetch(`/api/matches?accessId=${accessId} & matchtype =${matchType} & offset =${offset} & limit =${limit}`, requestOptions)).json();
     setList(json);
     }
 
@@ -28,7 +28,7 @@ function GameList({accessId}){
     // }  
     
   };
-
+  console.log();
   useEffect(()=>{
     getMatchList(matchType,offset);
   },[matchType,offset]);
@@ -36,21 +36,12 @@ function GameList({accessId}){
   const handleLoadMore = () => {
     setOffset(offset + 10); // increase the number of matches to display by 10
   }
-  
-  // console.log(list?.matchDetailList?.length)
-
-//   const spPositions = []; // spPosition 값을 저장할 배열 생성
-// list?.matchDetailList?.forEach((info) => {
-//   info?.matchInfo?.forEach((matchInfo) => {
-//     matchInfo?.player?.forEach((player) => {
-//       if (player?.spPosition) {
-//         spPositions.push(player?.spPosition);
-//       }
-//     });
-//   });
-// });
-
-// console.log(spPositions);
+  // const handleLoadMore = async () => {
+  //   const newOffset = offset + numMatches; // 새로운 offset 값 계산
+  //   const newMatches = await getMatchList(matchType, newOffset); // 새로운 경기 목록 가져오기
+  //   setList(prevList => [...prevList, ...newMatches]); // 기존 목록에 새로운 경기 추가
+  //   setOffset(newOffset); // offset 값 업데이트
+  // }
   return(
   <div>
       
@@ -74,6 +65,7 @@ function GameList({accessId}){
             matchInfo={info?.matchInfo}
             />
         ))}
+        <button onClick={handleLoadMore}>더보기</button>
         </Box>
     </div>
     
