@@ -36,8 +36,8 @@ public class matchController {
     }
 
     @ResponseBody
-    @GetMapping("/userSearch/{userName}")
-    public Map<String, Object> userSearch(@PathVariable String userName) throws JSONException, UnsupportedEncodingException, IOException {
+    @GetMapping("/userSearch")
+    public Map<String, Object> userSearch(@RequestParam(name = "userName") String userName) throws JSONException, IOException {
 
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -54,11 +54,11 @@ public class matchController {
     }
 
     @ResponseBody
-    @GetMapping("/matches/{accessId}/{matchtype}/{offset}/{limit}")
-    public Map<String, List> getMatchId(@PathVariable String accessId,
-                                        @PathVariable int matchtype,
-                                        @PathVariable int offset,
-                                        @PathVariable int limit) throws IOException {
+    @GetMapping("/matches")
+    public Map<String, List> getMatchId(@RequestParam(name = "accessId") String accessId,
+                                        @RequestParam(name = "matchtype", required = false, defaultValue = "52") int matchtype,
+                                        @RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
+                                        @RequestParam(name = "limit", required = false, defaultValue = "10") int limit) throws IOException {
 
         Map<String, List> matchInfoMap = matchService.getMatchId(accessId, matchtype, offset, limit);
 
@@ -66,8 +66,8 @@ public class matchController {
     }
 
     @ResponseBody
-    @GetMapping("/matchRecordDetail/{matchId}")
-    public MatchDto matchRecordDetail(@PathVariable String matchId) throws IOException {
+    @GetMapping("/matchRecordDetail")
+    public MatchDto matchRecordDetail(@RequestParam(name = "matchId") String matchId) throws IOException {
 
         MatchDto matchRecordDetailResult = matchService.matchDetailRecordApi(matchId);
 
