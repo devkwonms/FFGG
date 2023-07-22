@@ -1,6 +1,7 @@
 package com.project.soccer.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -13,6 +14,9 @@ import java.net.URL;
 @Service
 public class UrlConnService {
 
+    @Value("${API_KEY}")
+    private String connectKey;
+
     // api urlConn method
     public String urlConn(String api) throws IOException {
         StringBuffer result = new StringBuffer();
@@ -22,7 +26,7 @@ public class UrlConnService {
         try {
             URL url = new URL(api);
             urlConnection = (HttpsURLConnection) url.openConnection();
-            urlConnection.setRequestProperty("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJYLUFwcC1SYXRlLUxpbWl0IjoiNTAwOjEwIiwiYWNjb3VudF9pZCI6IjE1MjY5MjMzNzAiLCJhdXRoX2lkIjoiMiIsImV4cCI6MTY4ODg4ODQyMSwiaWF0IjoxNjczMzM2NDIxLCJuYmYiOjE2NzMzMzY0MjEsInNlcnZpY2VfaWQiOiI0MzAwMTE0ODEiLCJ0b2tlbl90eXBlIjoiQWNjZXNzVG9rZW4ifQ.SqVNR_woA6kakkt-DtclOu0DP5tJNwgd5q1DDqTde_Q");
+            urlConnection.setRequestProperty("Authorization", connectKey);
             // connect()를 호출하여 서버로 요청을 보냄
             urlConnection.connect();
 
