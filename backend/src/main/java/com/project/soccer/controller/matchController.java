@@ -21,7 +21,6 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/api")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class matchController {
 
@@ -37,13 +36,13 @@ public class matchController {
 
     @ResponseBody
     @GetMapping("/userSearch")
-    public Map<String, Object> userSearch(@RequestParam(name = "userName") String userName) throws JSONException, IOException {
+    public Map<String, Object> userSearch(@RequestParam(name = "nickname") String nickname) throws JSONException, IOException {
 
         Map<String, Object> resultMap = new HashMap<>();
 
         UserSearchDto userSearchDto = new UserSearchDto();
 
-        userSearchDto = userSearchService.getUserInfo(userSearchDto, userName);
+        userSearchDto = userSearchService.getUserInfo(userSearchDto, nickname);
 
         List<Map<String, Object>> topTierList = userSearchService.getTopRank(userSearchDto.getAccessId());
 
