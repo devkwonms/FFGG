@@ -28,22 +28,22 @@ public class MatchService {
     static final Gson gson = new Gson();
 
     // 유저 고유 식별자로 유저의 매치 기록 썸네일 조회(10개)
-    public Map<String,List> getMatchId(String accessId,int matchtype, int offset, int limit) throws IOException {
+    public Map<String, List> getMatchId(String accessId, int matchtype, int offset, int limit) throws IOException {
 
         // 유저 고유 식별자로 유저의 매치 기록(10경기) 조회 API
-        String getMatchId = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/matches?matchtype="+matchtype+"&offset="+offset+"&limit="+limit;
+        String getMatchId = "https://api.nexon.co.kr/fifaonline4/v1.0/users/" + accessId + "/matches?matchtype=" + matchtype + "&offset=" + offset + "&limit=" + limit;
         String matchIdResults = urlConnService.urlConn(getMatchId);
 
         JSONArray matchIdJson = new JSONArray(matchIdResults);
 
-        Map<String,List> matchInfoMap = new HashMap<>();
+        Map<String, List> matchInfoMap = new HashMap<>();
 
         List<MatchDto> matchDetailList = new ArrayList<>();
 
         // 나의 경기결과
 
         // 매치기록 (limit)개 하나씩 뽑아보기
-        for(int i =0; i<matchIdJson.length(); i++){
+        for (int i = 0; i < matchIdJson.length(); i++) {
             String matchId = (String) matchIdJson.get(i);
 
             // i번째 리스트 상세기록
@@ -51,7 +51,7 @@ public class MatchService {
             matchDetailList.add(matchDto);
 
         }
-        matchInfoMap.put("matchDetailList",matchDetailList);
+        matchInfoMap.put("matchDetailList", matchDetailList);
 
         return matchInfoMap;
     }
@@ -60,7 +60,7 @@ public class MatchService {
     public MatchDto matchDetailRecordApi(String matchId) throws IOException {
         // 매치 상세 기록 조회 API
 
-        String matchDetailRecordApi = "https://api.nexon.co.kr/fifaonline4/v1.0/matches/"+matchId;
+        String matchDetailRecordApi = "https://api.nexon.co.kr/fifaonline4/v1.0/matches/" + matchId;
         String matchDetailRecordResult = urlConnService.urlConn(matchDetailRecordApi);
 
         JSONObject matchDetailRecordJson = new JSONObject(matchDetailRecordResult);
@@ -68,8 +68,8 @@ public class MatchService {
         MatchDto matchDto = gson.fromJson(matchDetailRecordJson.toString(), MatchDto.class);
 
         // 몰수승or몰수패or오류 로 인한 빈 player 값이 올때의 오류방지 return 처리
-        if(matchDto.getMatchInfo().get(0).getPlayer().isEmpty() ||
-                matchDto.getMatchInfo().get(1).getPlayer().isEmpty()){
+        if (matchDto.getMatchInfo().get(0).getPlayer().isEmpty() ||
+                matchDto.getMatchInfo().get(1).getPlayer().isEmpty()) {
             return matchDto;
         }
 //        // 선수 이름, 선수이미지url 추출
@@ -78,6 +78,7 @@ public class MatchService {
         log.info("matchDto = {}", matchDto);
         return matchDto;
     }
+
     // {선수아이디,선수이름}의 데이터를 caching 하기위한 Map 객체선언
     private static Map<String, String> spNameCache = new ConcurrentHashMap<>();
 
@@ -119,7 +120,7 @@ public class MatchService {
     // 이분탐색을 통한 선수 id => 선수 id 매칭 => 선수 이름 추출 method
     private String extractPlayerNameById(JSONArray spNameJson, int spId) {
 
-    // 캐시된 결과가 있는 경우, 캐시에서 값을 가져와서 반환(락을 확보한 스레드만 해당 블록에 접근할 수 있으므로, 성능 문제가 발생할 확률감소)
+        // 캐시된 결과가 있는 경우, 캐시에서 값을 가져와서 반환(락을 확보한 스레드만 해당 블록에 접근할 수 있으므로, 성능 문제가 발생할 확률감소)
         try {
             lock.lock();
             if (cache.containsKey(spId)) {
@@ -131,13 +132,13 @@ public class MatchService {
         }
 
         int min = 0;
-        int max = spNameJson.length()-1;
+        int max = spNameJson.length() - 1;
 
         while (min <= max) {
 
             int mid = (min + max) / 2; // 중간 Index를 구하여 검색한다.
 
-            if ((int)spNameJson.getJSONObject(mid).get("id") < spId) { // 1. 찾는값이 더 큰 경우 우측에서 찾는다.
+            if ((int) spNameJson.getJSONObject(mid).get("id") < spId) { // 1. 찾는값이 더 큰 경우 우측에서 찾는다.
                 min = mid + 1;
 
             } else if ((int) spNameJson.getJSONObject(mid).get("id") > spId) { // 2. 찾는값이 더 작은 경우 좌측에서 찾는다.
@@ -153,6 +154,7 @@ public class MatchService {
         // 선수 이름을 찾지 못한 경우 null 반환
         return null;
     }
+
     public String extractPlayerImgUrl(int spId) {
         String spImgUrl = "https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p" + spId + ".png";
         String spNameResult = "";
