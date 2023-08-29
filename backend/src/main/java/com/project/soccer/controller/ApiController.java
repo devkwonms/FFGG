@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
 
     @RequestMapping("/api/user")
-    @ResponseBody
     public User getUser(){
         return new User("user@email.com","user name");
     }
