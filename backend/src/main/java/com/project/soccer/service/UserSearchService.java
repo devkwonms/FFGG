@@ -26,12 +26,12 @@ public class UserSearchService {
     @Autowired
     private UrlConnService urlConnService;
 
-    public UserSearchDto getUserInfo (UserSearchDto userSearchDto,String userName) throws IOException {
+    public UserSearchDto getUserInfo (UserSearchDto userSearchDto,String nickname) throws IOException {
 
-        userSearchDto.setNickName(userName);
+        userSearchDto.setNickName(nickname);
 
         // 유저 닉네임으로 유저 정보 조회 API
-        String getUserInfo = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=" + URLEncoder.encode(userName,"UTF-8");
+        String getUserInfo = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=" + URLEncoder.encode(nickname,"UTF-8");
 
         // 존재하지 않는 닉네임 조회 시의 예외처리
         String userSearchResult = urlConnService.urlConn(getUserInfo);

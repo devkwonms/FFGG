@@ -20,8 +20,8 @@
     <h4 class="mb-3">구단주명 입력</h4>
     <form action="">
         <div>
-            <label for="userName">구단주명</label>
-            <input type="text" id="userName" name="userName" class="formcontrol"
+            <label for="nickname">구단주명</label>
+            <input type="text" id="nickname" name="nickname" class="formcontrol"
                    placeholder="닉네임을 입력하세요">
         </div>
 
@@ -40,8 +40,8 @@
     // })
 function userInfo(){
 
-    var userName = $('#userName').val();
-    console.log("userName = " + userName);
+    var nickname = $('#nickname').val();
+    console.log("nickname = " + nickname);
 
     var something = {
         name: 'Outsider',
@@ -59,9 +59,9 @@ function userInfo(){
     $.ajax(
         {
             type : 'GET',
-            url : "/api/userSearch/"+userName,
+            url : "/api/userSearch/"+nickname,
             async:false,
-            // data: data.userName,
+            // data: data.nickname,
             contentType: 'application/json; charset=utf-8',   //    application/x-www-form-urlencoded
             success : function(data){
                 result = data;
