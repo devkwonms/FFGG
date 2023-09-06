@@ -21,7 +21,7 @@ function Detail(){
         }
         const json = await (
             await fetch(
-            `/api/userSearch?nickname = ${nickname}`,requestOptions
+            `/api/userSearch?nickname=${nickname}`,requestOptions
         )
         ).json();
         setUser(json);
