@@ -28,7 +28,6 @@ function Detail(){
         setLoading(false);
         
     };
-    // user의 값이 존재할때만 getUser(); => api 실행
     useEffect(()=>{
         if (user) {
             getUser();
