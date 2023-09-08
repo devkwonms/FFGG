@@ -40,7 +40,6 @@ function Detail(){
         //       endIndex: endIndex+10,
         //     })
         //   }, [pagination]);
-        // console.log(user.userSearchDto)
         // user.accessId 가 null 이면 "해당 구단주는 존재하지 않습니다! 로직 구현(isEmpty 쓰면될듯)"
         console.log(user);
     console.log(user?.userSearchDto?.accessId);
