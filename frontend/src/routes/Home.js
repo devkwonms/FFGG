@@ -7,12 +7,6 @@ import Navigation from '../components/Navigation';
 
 const Home = () => {
   const navigate = useNavigate();
-  // const [summonerName, setSummonerName] = useState('');
-  // const history = useNavigate();
-  // const searchSummoner = (e) => {
-  //   e.preventDefault();
-  //   history.push(`/summoner?summonerName=${summonerName}`);
-  // }
   const [input, setInput] = useState("delariva");
   const reset = ()=> {
     setInput("");
