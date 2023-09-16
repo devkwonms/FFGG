@@ -51,7 +51,7 @@ function GameList({accessId}){
         <Tab label="공식경기" value={50} />
         <Tab label="친선경기" value={40} />
         <Tab label="감독모드" value={52} />
-        <Tab label="나의 선수랭킹" value={10} />
+        {/* <Tab label="나의 선수랭킹" value={10} /> */}
       </Tabs>
         {list?.matchDetailList?.map((info) => (
             <MatchThumbnail
