@@ -13,7 +13,7 @@ function App() {
         <Route path="/user/:nickname" element={<Detail />} />
         <Route path="/error" element={<Error/>} />
         <Route path="/field" element={<SoccerField />} />
-        <Route path="/acco" element={<SimpleAccordion />} />
+        {/* <Route path="/acco" element={<SimpleAccordion />} /> */}
     </Routes>
 </Router>;
 }
