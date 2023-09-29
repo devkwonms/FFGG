@@ -1,6 +1,7 @@
 package com.project.soccer.service;
 
 import com.google.gson.Gson;
+import com.project.soccer.common.properties.GullitKey;
 import com.project.soccer.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @RequiredArgsConstructor
 public class MatchService {
 
+    private final GullitKey gullitKey;
     private final UrlConnService urlConnService;
     final static int MATCH_LEAGUE = 50;
 
@@ -31,7 +33,7 @@ public class MatchService {
     public Map<String, List> getMatchId(String accessId, int matchtype, int offset, int limit) throws IOException {
 
         // 유저 고유 식별자로 유저의 매치 기록(10경기) 조회 API
-        String getMatchId = "https://api.nexon.co.kr/fifaonline4/v1.0/users/" + accessId + "/matches?matchtype=" + matchtype + "&offset=" + offset + "&limit=" + limit;
+        String getMatchId = GullitKey.FC_URL + accessId + "/matches?matchtype=" + matchtype + "&offset=" + offset + "&limit=" + limit;
         String matchIdResults = urlConnService.urlConn(getMatchId);
 
         JSONArray matchIdJson = new JSONArray(matchIdResults);
@@ -60,7 +62,7 @@ public class MatchService {
     public MatchDto matchDetailRecordApi(String matchId) throws IOException {
         // 매치 상세 기록 조회 API
 
-        String matchDetailRecordApi = "https://api.nexon.co.kr/fifaonline4/v1.0/matches/" + matchId;
+        String matchDetailRecordApi = GullitKey.MATCH_URL + matchId;
         String matchDetailRecordResult = urlConnService.urlConn(matchDetailRecordApi);
 
         JSONObject matchDetailRecordJson = new JSONObject(matchDetailRecordResult);
@@ -91,7 +93,7 @@ public class MatchService {
         if (spNameCache.containsKey("spNameResult")) {
             spNameResult = spNameCache.get("spNameResult");
         } else {
-            spNameResult = urlConnService.urlConn("https://static.api.nexon.co.kr/fifaonline4/latest/spid.json");
+            spNameResult = urlConnService.urlConn(GullitKey.PLAYERS_URL);
             spNameCache.put("spNameResult", spNameResult);
         }
 
@@ -156,7 +158,7 @@ public class MatchService {
     }
 
     public String extractPlayerImgUrl(int spId) {
-        String spImgUrl = "https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p" + spId + ".png";
+        String spImgUrl = GullitKey.PLAYER_IMG_URL + spId + ".png";
         String spNameResult = "";
 
         // 예외처리
@@ -165,7 +167,7 @@ public class MatchService {
         } catch (IOException e) {
 //            log.error("URL 연결 중 오류가 발생했습니다. url={}", spImgUrl);
             // 예외발생시 (선수이미지가 원래 없는경우) 디폴트 이미지 삽입
-            spImgUrl = "https://cdn-icons-png.flaticon.com/512/1909/1909621.png";
+            spImgUrl = GullitKey.PLAYER_DEFAULT_IMG_URL;
             return spImgUrl;
         }
         return spImgUrl;

@@ -1,9 +1,11 @@
 package com.project.soccer.service;
 
+import com.project.soccer.common.properties.GullitKey;
 import com.project.soccer.dto.Division;
 import com.project.soccer.dto.MatchType;
 import com.project.soccer.dto.TopTierDto;
 import com.project.soccer.dto.UserSearchDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,6 +23,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserSearchService {
 
     @Autowired
@@ -31,7 +34,7 @@ public class UserSearchService {
         userSearchDto.setNickName(nickname);
 
         // 유저 닉네임으로 유저 정보 조회 API
-        String getUserInfo = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=" + URLEncoder.encode(nickname,"UTF-8");
+        String getUserInfo = GullitKey.OWNER_URL + URLEncoder.encode(nickname,"UTF-8");
 
         // 존재하지 않는 닉네임 조회 시의 예외처리
         String userSearchResult = urlConnService.urlConn(getUserInfo);
@@ -55,7 +58,7 @@ public class UserSearchService {
 
         List<Map<String,Object>> topTierList = new ArrayList<>();
 
-        String getTopRank = "https://api.nexon.co.kr/fifaonline4/v1.0/users/"+accessId+"/maxdivision";
+        String getTopRank = GullitKey.FC_URL+accessId+"/maxdivision";
         String topTierResult = urlConnService.urlConn(getTopRank);
 
         JSONArray topTierJson = new JSONArray(topTierResult);

@@ -1,5 +1,6 @@
 package com.project.soccer.service;
 
+import com.project.soccer.common.properties.GullitKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,6 @@ import java.net.URL;
 @Service
 public class UrlConnService {
 
-    @Value("${API_KEY}")
-    private String connectKey;
-
     // api urlConn method
     public String urlConn(String api) throws IOException {
         StringBuffer result = new StringBuffer();
@@ -26,7 +24,7 @@ public class UrlConnService {
         try {
             URL url = new URL(api);
             urlConnection = (HttpsURLConnection) url.openConnection();
-            urlConnection.setRequestProperty("Authorization", connectKey);
+            urlConnection.setRequestProperty("Authorization", GullitKey.API_KEY);
             // connect()를 호출하여 서버로 요청을 보냄
             urlConnection.connect();
 
