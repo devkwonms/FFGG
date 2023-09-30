@@ -14,7 +14,7 @@ function GameList({accessId}){
         method: 'GET'
     };
     if(matchType === 50||matchType === 40||matchType === 52){
-    const json = await (await fetch(`/api/matches?accessId=${accessId} & matchtype =${matchType} & offset =${offset} & limit =${limit}`, requestOptions)).json();
+    const json = await (await fetch(`/api/matches?accessId=${accessId}&matchtype=${matchType}&offset=${offset}&limit=${limit}`, requestOptions)).json();
     setList(json);
     }
 
