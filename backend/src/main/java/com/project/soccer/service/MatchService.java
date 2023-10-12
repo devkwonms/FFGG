@@ -17,13 +17,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MatchService {
 
-    private final GullitKey gullitKey;
     private final UrlConnService urlConnService;
     final static int MATCH_LEAGUE = 50;
 
@@ -38,24 +39,44 @@ public class MatchService {
 
         JSONArray matchIdJson = new JSONArray(matchIdResults);
 
+        // Use parallel stream for concurrent processing
+        List<MatchDto> matchDetailList = IntStream.range(0, matchIdJson.length())
+                .parallel()
+                .mapToObj(i -> {
+                    String matchId = (String) matchIdJson.get(i);
+                    try {
+                        // i번째 리스트 상세기록
+                        return matchDetailRecordApi(matchId);
+                    } catch (IOException e) {
+                        // Handle exception as needed
+                        return null;
+                    }
+                })
+                .collect(Collectors.toList());
+
         Map<String, List> matchInfoMap = new HashMap<>();
-
-        List<MatchDto> matchDetailList = new ArrayList<>();
-
-        // 나의 경기결과
-
-        // 매치기록 (limit)개 하나씩 뽑아보기
-        for (int i = 0; i < matchIdJson.length(); i++) {
-            String matchId = (String) matchIdJson.get(i);
-
-            // i번째 리스트 상세기록
-            MatchDto matchDto = matchDetailRecordApi(matchId);
-            matchDetailList.add(matchDto);
-
-        }
         matchInfoMap.put("matchDetailList", matchDetailList);
 
         return matchInfoMap;
+
+//        Map<String, List> matchInfoMap = new HashMap<>();
+//
+//        List<MatchDto> matchDetailList = new ArrayList<>();
+//
+//        // 나의 경기결과
+//
+//        // 매치기록 (limit)개 하나씩 뽑아보기
+//        for (int i = 0; i < matchIdJson.length(); i++) {
+//            String matchId = (String) matchIdJson.get(i);
+//
+//            // i번째 리스트 상세기록
+//            MatchDto matchDto = matchDetailRecordApi(matchId);
+//            matchDetailList.add(matchDto);
+//
+//        }
+//        matchInfoMap.put("matchDetailList", matchDetailList);
+//
+//        return matchInfoMap;
     }
 
     // 매치 상세 기록 조회
